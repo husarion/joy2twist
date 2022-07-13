@@ -1,0 +1,12 @@
+<launch>
+  <arg name="docker" /> 
+
+  <group if="$(arg docker)">
+    <rosparam file="/ros_ws/src/joy2twist/joy2twist/config/joy2twist.yaml"/>
+  </group>
+
+  <rosparam unless="$(arg docker)" file="$(find joy2twist)/config/joy2twist.yaml"/>
+
+  <node name="joy2twist_node" pkg="joy2twist" type="joy2twist_node" output="screen"></node>
+
+</launch>

@@ -1,0 +1,2 @@
+/joy2twist_node:
+  velocity_factor: { fast: 1, regular: 0.5, slow: 0.2 }

@@ -1,0 +1,43 @@
+version: '3.4'
+
+services:
+  ros-master:
+    image: ros:noetic-ros-core
+    restart: unless-stopped
+    command: stdbuf -o L roscore
+
+  joy2twist:
+    image: husarion/joy2twist:noetic
+    restart: unless-stopped
+    tty: true
+    devices:
+      - /dev/input/js0
+    environment:
+      - ROS_MASTER_URI=http://ros-master:11311
+    volumes: 
+      - ./config/joy2twist.yaml:/ros_ws/src/joy2twist/joy2twist/config/joy2twist.yaml
+    command: >
+      roslaunch --wait 
+      joy2twist gamepad_controller.launch
+
+  # ROS Noetic
+  panther_driver:
+    image: husarion/panther-driver
+    restart: unless-stopped
+    tty: true  
+    environment:
+      - ROS_MASTER_URI=http://ros-master:11311
+    command: roslaunch panther_driver driver.launch
+
+  # ROS Noetic
+  velocity_manager:
+    image: husarion/velocity-manager:noetic-latest
+    restart: unless-stopped
+    tty: true   
+    environment:
+      - ROS_MASTER_URI=http://ros-master:11311
+    command: rosrun velocity_manager velocity_manager_node
+
+
+
+
