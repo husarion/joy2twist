@@ -12,7 +12,7 @@ straightforward as possible.
  
 ### Added
 - 11-07-2022 [ROSbot2-#2kpq27q](https://app.clickup.com/t/2kpq27q)
-  ROS1 package version refactor
+  ROS1 package version development
 ### Changed
 
 ### Fixed
