@@ -59,7 +59,7 @@ The robot can be operated at 3 scales of speed depending on pressed buttons. It'
 
 ## Docker image
 
-[![Build/Publish Docker Image](https://github.com/husarion/logitech_f710_ros/actions/workflows/build-docker-image.yaml/badge.svg)](https://github.com/husarion/logitech_f710_ros/actions/workflows/build-docker-image.yaml)
+[![Build/Publish Docker Image](https://github.com/husarion/joy2twist/actions/workflows/build-docker-image.yaml/badge.svg)](https://github.com/husarion/joy2twist/actions/workflows/build-docker-image.yaml)
 
 | ROS distro | Supported architectures |
 | - | - |
@@ -75,8 +75,8 @@ Available on [Docker Hub](https://hub.docker.com/r/husarion/logitech-f710/tags)
 1. Clone this repo on your ROSbot:
 
     ```bash
-    git clone https://github.com/husarion/logitech_f710_ros.git
-    cd logitech_f710_ros/
+    git clone https://github.com/husarion/joy2twist.git
+    cd joy2twist/
     ```
 
 2. Create `demo/.env` based on `demo/.env.template` file and modify it if needed (see comments)
@@ -91,7 +91,7 @@ Available on [Docker Hub](https://hub.docker.com/r/husarion/logitech-f710/tags)
 
 3. Launch on ROSbot
 
-    Go to the `logitech_f710_ros/demo` folder and run:
+    Go to the `joy2twist/demo` folder and run:
     
     ```bash
     docker compose -f compose.rosbot.yaml up
