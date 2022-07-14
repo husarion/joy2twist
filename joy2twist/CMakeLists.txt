@@ -23,6 +23,7 @@ include_directories(include)
 add_executable(
   joy2twist
   src/joy2twist.cpp
+  src/ros/joy2twist_node.cpp
 )
 
 ament_target_dependencies(joy2twist
