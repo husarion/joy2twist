@@ -28,14 +28,14 @@ private:
 
   void joy_cb(const MsgJoy &joy_msg);
 
-  MsgTwist get_twist_from(const MsgJoy &joy_msg);
+  void convert_joy_to_twist(const MsgJoy &joy_msg, MsgTwist &twist_msg);
 
-  float check_speed_mode(const MsgJoy &joy_msg);
+  float determine_speed_mode(const MsgJoy &joy_msg);
 
   std::map<std::string, float> velocity_factors_;
 
   const std::map<std::string, float> default_velocity_factors_{
-      {"fast", 1}, {"regular", 0.25}, {"slow", 0.1}};
+      {"fast", 1.0}, {"regular", 0.25}, {"slow", 0.1}};
 
   static constexpr int angular_velocity_factor = 2;
 };
