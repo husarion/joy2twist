@@ -1,5 +1,5 @@
 <launch>
-  <arg name="docker" /> 
+  <arg name="docker" default="false" /> 
 
   <group if="$(arg docker)">
     <rosparam file="/ros_ws/src/joy2twist/joy2twist/config/joy2twist.yaml"/>
