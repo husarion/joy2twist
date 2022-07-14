@@ -23,7 +23,6 @@ private:
   void load_parameters();
 
   ros::Subscriber joy_sub_;
-
   ros::Publisher twist_pub_;
 
   void joy_cb(const MsgJoy &joy_msg);
