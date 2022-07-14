@@ -29,22 +29,25 @@ void Joy2TwistNode::declare_parameters() {
 }
 
 void Joy2TwistNode::load_parameters() {
-  this->get_parameter<float>("velocity_factor.fast",
-                             velocity_factors_.at(FAST));
+  this->get_parameter<float>("velocity_factor.fast", velocity_factors_[FAST]);
   this->get_parameter<float>("velocity_factor.regular",
-                             velocity_factors_.at(REGULAR));
-  this->get_parameter<float>("velocity_factor.slow",
-                             velocity_factors_.at(SLOW));
+                             velocity_factors_[REGULAR]);
+  this->get_parameter<float>("velocity_factor.slow", velocity_factors_[SLOW]);
 }
 
 void Joy2TwistNode::joy_cb(const MsgJoy::SharedPtr joy_msg) {
-  MsgTwist twist_msg;
+  RCLCPP_DEBUG(get_logger(), "Processing callback for /joy topic");
+  try {
+    MsgTwist twist_msg;
+    if (joy_msg->buttons.at(DEAD_MAN_SWITCH)) {
+      convert_joy_to_twist(joy_msg, twist_msg);
+    }
+    twist_pub_->publish(twist_msg);
+  } catch (const std::exception &exception) {
+    RCLCPP_ERROR(get_logger(), exception.what());
 
-  if (joy_msg->buttons.at(DEAD_MAN_SWITCH)) {
-    convert_joy_to_twist(joy_msg, twist_msg);
   }
-
-  twist_pub_->publish(twist_msg);
+  RCLCPP_DEBUG(get_logger(), "Finished callback for /joy topic");
 }
 
 void Joy2TwistNode::convert_joy_to_twist(const MsgJoy::SharedPtr joy_msg,
