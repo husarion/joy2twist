@@ -15,7 +15,7 @@ def generate_launch_description():
         config = yaml.safe_load(config_o)
     ros_param = config['/**']['ros__parameters']
 
-    joy2twist = Node(
+    joy2twist_node = Node(
         package='joy2twist',
         executable='joy2twist',
         parameters=[ros_param],
@@ -26,6 +26,6 @@ def generate_launch_description():
         emulate_tty='true'
     )
 
-    ld.add_action(joy2twist)
+    ld.add_action(joy2twist_node)
 
     return ld

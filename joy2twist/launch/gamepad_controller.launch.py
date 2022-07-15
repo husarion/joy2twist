@@ -1,19 +1,21 @@
 from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription
+from launch.actions import IncludeLaunchDescription, ExecuteProcess
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 
 
 def generate_launch_description():
     ld = LaunchDescription()
 
-    lanuch_arbiter = create_include_launch(package='joy',
-                                           rel_launch_path='/launch/arbiter.launch.py')
-    ld.add_action(lanuch_arbiter)
+    ld.add_action(ExecuteProcess(
+        cmd=[["ros2 run joy_linux joy_linux_node"]],
+        shell=True
+    ))
 
-    launch_rm = create_include_launch(package='joy2twist',
-                                      rel_launch_path='/launch/joy2twist.launch.py')
-    ld.add_action(launch_rm)
+    launch_joy2twist = create_include_launch(package='joy2twist',
+                                             rel_launch_path='/launch/joy2twist.launch.py',
+                                             arguments={})
+    ld.add_action(launch_joy2twist)
 
     return ld
 
