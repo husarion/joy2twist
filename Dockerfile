@@ -1,4 +1,4 @@
-ARG ROS_DISTRO=humble
+ARG ROS_DISTRO=galactic
 
 FROM ros:$ROS_DISTRO-ros-base
 
@@ -9,7 +9,7 @@ WORKDIR /ros_ws
 
 # Update Ubuntu Software repository
 RUN apt update && apt upgrade -y && apt install -y \
-        ros-$ROS_DISTRO-joy && \
+        ros-$ROS_DISTRO-joy-linux && \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
 
