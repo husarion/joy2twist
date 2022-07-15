@@ -30,7 +30,7 @@ private:
   std::map<std::string, float> velocity_factors_;
 
   const std::map<std::string, float> default_velocity_factors_{
-      {"fast", 1.0}, {"regular", 0.25}, {"slow", 0.1}};
+      {"fast", 1.0}, {"regular", 0.5}, {"slow", 0.2}};
 
   static constexpr int angular_velocity_factor = 2;
 
