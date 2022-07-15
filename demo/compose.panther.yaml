@@ -1,0 +1,46 @@
+services:
+
+  joy2twist:
+    image: husarion/joy2twist:galactic
+    restart: unless-stopped
+    tty: true
+    devices:
+      - /dev/input/js0
+    environment:
+      - ROS_MASTER_URI=http://ros-master:11311
+    volumes: 
+      - ../joy2twist/config/joy2twist.yaml:/joy2twist.yaml
+    command: >
+      ros2 launch
+      joy2twist gamepad_controller.launch.py
+      joy2twist_params_file:=/joy2twist.yaml
+
+  bridge:
+    image: husarion/ros:galactic-ros1-bridge
+    restart: unless-stopped
+    environment:
+      - ROS_MASTER_URI=http://ros-master:11311
+    command: >
+      ros2 run 
+      ros1_bridge dynamic_bridge
+
+  ros-master:
+    image: ros:noetic-ros-core
+    restart: unless-stopped
+    command: stdbuf -o L roscore
+
+  panther_driver:
+    image: husarion/panther-driver:noetic-latest
+    restart: unless-stopped
+    tty: true
+    environment:
+      - ROS_MASTER_URI=http://ros-master:11311
+    command: roslaunch panther_driver driver.launch
+
+  velocity_manager:
+    image: husarion/velocity-manager:noetic-latest
+    restart: unless-stopped
+    tty: true
+    environment:
+      - ROS_MASTER_URI=http://ros-master:11311
+    command: rosrun velocity_manager velocity_manager_node
