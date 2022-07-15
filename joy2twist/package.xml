@@ -13,7 +13,7 @@
 
   <depend>ament_index_cpp</depend>
   <depend>geometry_msgs</depend>
-  <depend>joy</depend>
+  <depend>joy_linux</depend>
   <depend>rclcpp</depend>
   <depend>sensor_msgs</depend>
 
