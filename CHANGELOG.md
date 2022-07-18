@@ -11,8 +11,7 @@ Here we write upgrading notes for brands. It's a team effort to make them as
 straightforward as possible.
  
 ### Added
-- 13-07-2022 [ROSbot2-#2kpq27q](https://app.clickup.com/t/2kpq27q)
-  ROS2 package version development
+- **13-07-2022** - ROS2 package version development
 ### Changed
 
 ### Fixed

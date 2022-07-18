@@ -5,21 +5,19 @@ FROM ros:$ROS_DISTRO-ros-base
 # Use bash instead of sh
 SHELL ["/bin/bash", "-c"]
 
-WORKDIR /ros_ws
-
-# Update Ubuntu Software repository
-RUN apt update && apt upgrade -y && apt install -y \
-        ros-$ROS_DISTRO-joy-linux && \
-    apt clean && \
-    rm -rf /var/lib/apt/lists/*
-
-# Create and initialise ROS workspace
+WORKDIR /ros2_ws
 
 COPY ./joy2twist ./src/joy2twist
 
-RUN mkdir build && \
+# Update Ubuntu Software repository and initialise ROS workspace
+RUN apt update && apt upgrade -y && \
     source /opt/ros/$ROS_DISTRO/setup.bash && \
-    colcon build
+    rosdep update --rosdistro $ROS_DISTRO && \
+    rosdep install -i --from-path src --rosdistro $ROS_DISTRO -y && \
+    colcon build --symlink-install && \
+    apt autoremove -y && \
+    apt clean && \
+    rm -rf /var/lib/apt/lists/*
 
 COPY ./ros_entrypoint.sh /
 ENTRYPOINT ["/ros_entrypoint.sh"]
