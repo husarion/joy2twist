@@ -27,12 +27,12 @@ add_executable(
 )
 
 ament_target_dependencies(joy2twist
-  "ament_cmake"
-  "ament_index_cpp"
-  "geometry_msgs"
-  "joy_linux"
-  "rclcpp"
-  "sensor_msgs"
+  ament_cmake
+  ament_index_cpp
+  geometry_msgs
+  joy_linux
+  rclcpp
+  sensor_msgs
   )
 
 install(TARGETS joy2twist
