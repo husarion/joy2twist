@@ -4,10 +4,12 @@ services:
     image: husarion/joy2twist:galactic
     restart: unless-stopped
     tty: true
+    network_mode: host
+    ipc: host
     devices:
       - /dev/input/js0
     environment:
-      - ROS_MASTER_URI=http://ros-master:11311
+      - ROS_MASTER_URI=http://10.15.20.2:11311
     volumes: 
       - ../joy2twist/config/joy2twist.yaml:/joy2twist.yaml
     command: >
@@ -18,29 +20,11 @@ services:
   bridge:
     image: husarion/ros:galactic-ros1-bridge
     restart: unless-stopped
+    network_mode: host
+    ipc: host
     environment:
-      - ROS_MASTER_URI=http://ros-master:11311
+      - ROS_IP=10.15.20.3
+      - ROS_MASTER_URI=http://10.15.20.2:11311
     command: >
-      ros2 run 
+      ros2 run
       ros1_bridge dynamic_bridge
-
-  ros-master:
-    image: ros:noetic-ros-core
-    restart: unless-stopped
-    command: stdbuf -o L roscore
-
-  panther_driver:
-    image: husarion/panther-driver:noetic-latest
-    restart: unless-stopped
-    tty: true
-    environment:
-      - ROS_MASTER_URI=http://ros-master:11311
-    command: roslaunch panther_driver driver.launch
-
-  velocity_manager:
-    image: husarion/velocity-manager:noetic-latest
-    restart: unless-stopped
-    tty: true
-    environment:
-      - ROS_MASTER_URI=http://ros-master:11311
-    command: rosrun velocity_manager velocity_manager_node
