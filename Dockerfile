@@ -7,19 +7,17 @@ SHELL ["/bin/bash", "-c"]
 
 WORKDIR /ros_ws
 
-# Update Ubuntu Software repository
-RUN apt update && apt upgrade -y && apt install -y \
-        ros-$ROS_DISTRO-joy && \
-    apt clean && \
-    rm -rf /var/lib/apt/lists/*
-
-# Create and initialise ROS workspace
-
 COPY ./joy2twist ./src/joy2twist
 
-RUN mkdir build && \
+# Update Ubuntu Software repository and initialise ROS workspace
+RUN apt update && apt upgrade -y && \
     source /opt/ros/$ROS_DISTRO/setup.bash && \
-    catkin_make
+    rosdep update --rosdistro $ROS_DISTRO && \
+    rosdep install -i --from-path src --rosdistro $ROS_DISTRO -y && \
+    catkin_make && \
+    apt autoremove -y && \
+    apt clean && \
+    rm -rf /var/lib/apt/lists/*
 
 COPY ./ros_entrypoint.sh /
 ENTRYPOINT ["/ros_entrypoint.sh"]
