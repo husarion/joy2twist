@@ -6,7 +6,7 @@ using namespace joy2twist;
 int main(int argc, char *argv[]) {
 
   rclcpp::init(argc, argv);
-  rclcpp::executors::MultiThreadedExecutor executor;
+  rclcpp::executors::SingleThreadedExecutor executor;
 
   auto joy2twist_node = std::make_shared<Joy2TwistNode>();
   executor.add_node(joy2twist_node);
