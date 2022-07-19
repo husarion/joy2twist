@@ -26,8 +26,7 @@ def generate_launch_description():
             'stdout': 'screen',
             'stderr': 'screen'
         },
-        emulate_tty='true'
-    )
+        emulate_tty='true')
     ld.add_action(joy2twist_node)
 
     return ld
