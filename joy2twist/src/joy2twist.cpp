@@ -1,10 +1,11 @@
 #include <iostream>
+
 #include "joy2twist/ros/joy2twist_node.hpp"
 
 using namespace joy2twist;
 
-int main(int argc, char *argv[]) {
-
+int main(int argc, char * argv[])
+{
   rclcpp::init(argc, argv);
   rclcpp::executors::SingleThreadedExecutor executor;
 
@@ -13,9 +14,8 @@ int main(int argc, char *argv[]) {
 
   try {
     executor.spin();
-  } catch (const std::runtime_error &err) {
-    std::cerr << "[Joy2TwistNode] Caught exception: " << err.what()
-              << std::endl;
+  } catch (const std::runtime_error & err) {
+    std::cerr << "[Joy2TwistNode] Caught exception: " << err.what() << std::endl;
   }
 
   std::cout << "[Joy2TwistNode] Shutting down" << std::endl;
