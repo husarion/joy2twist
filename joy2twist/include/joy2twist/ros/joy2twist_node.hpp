@@ -1,5 +1,5 @@
-#ifndef JOY2TWIST_NODE_HTTP
-#define JOY2TWIST_NODE
+#ifndef JOY2TWIST_NODE_HPP
+#define JOY2TWIST_NODE_HPP
 
 #include <map>
 #include <rclcpp/rclcpp.hpp>
@@ -50,4 +50,4 @@ static constexpr char REGULAR[] = "regular";
 static constexpr char SLOW[] = "slow";
 } // namespace joy2twist
 
-#endif // JOY2TWIST_NODE
+#endif // JOY2TWIST_NODE_HPP
