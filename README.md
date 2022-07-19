@@ -1,6 +1,6 @@
 # Joy2Twist
 
-Dockerized ROS node allowing to control ROS powered mobile robots with Logitech F710 gamepad. Joy2Twist node is converting `sensor_msgs/Joy` message to `geometry_msgs/Twist` in order to provide velocity commands for mobile robot.
+Dockerized ROS node allowing to control ROS-powered mobile robots with Logitech F710 gamepad. Joy2Twist node is converting `sensor_msgs/Joy` message to `geometry_msgs/Twist` in order to provide velocity commands for mobile robot.
 
 ## Setup joy
 
@@ -83,10 +83,10 @@ Available on [Docker Hub](https://hub.docker.com/r/husarion/logitech-f710/tags)
 
     ```bash
     # SBC <> STM32 serial connection. Set:
-    # /dev/ttyS1 for ROSbot 2
-    # /dev/ttyS4 for ROSbot 2 PRO
-    # /dev/ttyAMA0 for ROSbbot 2R
-    SERIAL_PORT=/dev/ttyAMA0
+    # SERIAL_PORT=/dev/ttyS1 # ROSbot 2
+    # SERIAL_PORT=/dev/ttyS4 # ROSbot 2 PRO
+    SERIAL_PORT=/dev/ttyAMA0 # ROSbot 2R
+
     ```
 
 3. Launch on ROSbot
@@ -94,5 +94,6 @@ Available on [Docker Hub](https://hub.docker.com/r/husarion/logitech-f710/tags)
     Go to the `joy2twist/demo` folder and run:
     
     ```bash
+    cd demo
     docker compose -f compose.rosbot.yaml up
     ```

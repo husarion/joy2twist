@@ -1,9 +1,10 @@
 #include <iostream>
-#include <joy2twist/ros/joy2twist_node.hpp>
+#include "joy2twist/ros/joy2twist_node.hpp"
 
 using namespace joy2twist;
 
-int main(int argc, char *argv[]) {
+int main(int argc, char * argv[])
+{
   ros::init(argc, argv, "joy2twist_node");
 
   auto nh = std::make_shared<ros::NodeHandle>();
@@ -13,7 +14,7 @@ int main(int argc, char *argv[]) {
 
   try {
     ros::spin();
-  } catch (const std::exception &e) {
+  } catch (const std::exception & e) {
     std::cerr << "[Joy2TwistNode] Caught exception: " << e.what() << std::endl;
   }
 
