@@ -29,9 +29,10 @@ def generate_launch_description():
         emulate_tty='true')
     ld.add_action(joy_linux_node)
 
-    launch_joy2twist = create_include_launch(package='joy2twist',
-                                             rel_launch_path='/launch/joy2twist.launch.py',
-                                             arguments={'joy2twist_params_file': LaunchConfiguration('joy2twist_params_file')})
+    launch_joy2twist = create_include_launch(
+        package='joy2twist',
+        rel_launch_path='/launch/joy2twist.launch.py',
+        arguments={'joy2twist_params_file': LaunchConfiguration('joy2twist_params_file')})
     ld.add_action(launch_joy2twist)
 
     return ld
