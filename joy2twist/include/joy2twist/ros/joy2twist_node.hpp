@@ -1,5 +1,5 @@
-#ifndef JOY2TWIST_NODE_HPP
-#define JOY2TWIST_NODE_HPP
+#ifndef JOY2TWIST_JOY2TWIST_NODE_HPP
+#define JOY2TWIST_JOY2TWIST_NODE_HPP
 
 #include <map>
 #include <rclcpp/rclcpp.hpp>
@@ -32,22 +32,22 @@ private:
   const std::map<std::string, float> default_velocity_factors_{
       {"fast", 0.8}, {"regular", 0.4}, {"slow", 0.2}};
 
-  static constexpr int angular_velocity_factor = 2;
+  static constexpr int angular_velocity_factor {2};
 
   rclcpp::Subscription<MsgJoy>::SharedPtr joy_sub_;
   rclcpp::Publisher<MsgTwist>::SharedPtr twist_pub_;
 };
 
-static constexpr int DEAD_MAN_SWITCH = 4;
-static constexpr int FAST_MODE = 7;
-static constexpr int SLOW_MODE = 5;
-static constexpr int ANGULAR_Z = 0;
-static constexpr int LINEAR_X = 3;
-static constexpr int LINEAR_Y = 2;
+static constexpr int DEAD_MAN_SWITCH {4};
+static constexpr int FAST_MODE {7};
+static constexpr int SLOW_MODE {5};
+static constexpr int ANGULAR_Z {0};
+static constexpr int LINEAR_X {3};
+static constexpr int LINEAR_Y {2};
 
-static constexpr char FAST[] = "fast";
-static constexpr char REGULAR[] = "regular";
-static constexpr char SLOW[] = "slow";
+static constexpr char FAST[] {"fast"};
+static constexpr char REGULAR[] {"regular"};
+static constexpr char SLOW[] {"slow"};
 } // namespace joy2twist
 
-#endif // JOY2TWIST_NODE_HPP
+#endif // JOY2TWIST_JOY2TWIST_NODE_HPP
