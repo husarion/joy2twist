@@ -1,6 +1,6 @@
 /**:
   ros__parameters:
     velocity_factor:
-      fast: 0.8
-      regular: 0.4
+      fast: 1.0
+      regular: 0.5
       slow: 0.2
