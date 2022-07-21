@@ -13,17 +13,17 @@
   <author email="pawel.irzyk@husarion.com">Paweł Irzyk</author>
 
   <buildtool_depend>catkin</buildtool_depend>
-  <build_depend>geometry_msgs</build_depend>
-  <build_depend>joy</build_depend>
   <build_depend>roscpp</build_depend>
+  <build_depend>joy</build_depend>
+  <build_depend>geometry_msgs</build_depend>
   <build_depend>sensor_msgs</build_depend>
-  <build_export_depend>geometry_msgs</build_export_depend>
-  <build_export_depend>joy</build_export_depend>
   <build_export_depend>roscpp</build_export_depend>
+  <build_export_depend>joy</build_export_depend>
+  <build_export_depend>geometry_msgs</build_export_depend>
   <build_export_depend>sensor_msgs</build_export_depend>
-  <exec_depend>geometry_msgs</exec_depend>
-  <exec_depend>joy</exec_depend>
   <exec_depend>roscpp</exec_depend>
+  <exec_depend>joy</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
   <exec_depend>sensor_msgs</exec_depend>
 
   <export>

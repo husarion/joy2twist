@@ -1,4 +1,4 @@
-#include "joy2twist/ros/joy2twist_node.hpp"
+#include "joy2twist/joy2twist_node.hpp"
 
 namespace joy2twist
 {
@@ -22,16 +22,10 @@ void Joy2TwistNode::joy_cb(const MsgJoy & joy_msg)
 {
   ROS_DEBUG("Processing callback for /joy topic");
   MsgTwist twist_msg;
-  try {
-    if (joy_msg.buttons.at(DEAD_MAN_SWITCH)) {
-      convert_joy_to_twist(joy_msg, twist_msg);
-    }
-    twist_pub_.publish(twist_msg);
-  } catch (const std::exception & e) {
-    std::string node_name = ros::this_node::getName();
-    std::string error_code = "[" + node_name + "] " + e.what();
-    ROS_ERROR_STREAM(error_code);
+  if (joy_msg.buttons.at(DEAD_MAN_SWITCH)) {
+    convert_joy_to_twist(joy_msg, twist_msg);
   }
+  twist_pub_.publish(twist_msg);
   ROS_DEBUG("Finished callback for /joy topic");
 }
 

@@ -2,6 +2,7 @@
 #define JOY2TWIST_JOY2TWIST_NODE_HPP
 
 #include <string.h>
+
 #include <map>
 
 #include <ros/console.h>
@@ -9,7 +10,6 @@
 
 #include <geometry_msgs/Twist.h>
 #include <sensor_msgs/Joy.h>
-
 
 namespace joy2twist
 {

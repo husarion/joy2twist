@@ -1,5 +1,6 @@
 #include <iostream>
-#include "joy2twist/ros/joy2twist_node.hpp"
+
+#include "joy2twist/joy2twist_node.hpp"
 
 using namespace joy2twist;
 

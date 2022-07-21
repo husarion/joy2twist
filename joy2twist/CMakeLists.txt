@@ -2,16 +2,16 @@ cmake_minimum_required(VERSION 3.0.2)
 project(joy2twist)
 
 find_package(catkin REQUIRED COMPONENTS
-  geometry_msgs
-  joy
   roscpp
+  geometry_msgs
   sensor_msgs
+  joy
 )
 
 catkin_package(
  INCLUDE_DIRS include
  LIBRARIES ${PROJECT_NAME}
- CATKIN_DEPENDS geometry_msgs roscpp sensor_msgs joy
+ CATKIN_DEPENDS roscpp geometry_msgs sensor_msgs joy
 )
 
 include_directories(
@@ -21,12 +21,12 @@ include_directories(
 
 add_library(${PROJECT_NAME}
   src/joy2twist.cpp
-  src/ros/joy2twist_node.cpp
+  src/joy2twist_node.cpp
 )
 
 add_executable(${PROJECT_NAME}_node 
   src/joy2twist.cpp
-  src/ros/joy2twist_node.cpp
+  src/joy2twist_node.cpp
 )
 
 target_link_libraries(
