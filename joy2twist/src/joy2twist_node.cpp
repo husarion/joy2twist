@@ -1,4 +1,4 @@
-#include "joy2twist/ros/joy2twist_node.hpp"
+#include "joy2twist/joy2twist_node.hpp"
 namespace joy2twist
 {
 Joy2TwistNode::Joy2TwistNode() : Node("joy2twist_node")
@@ -37,15 +37,11 @@ void Joy2TwistNode::load_parameters()
 void Joy2TwistNode::joy_cb(const MsgJoy::SharedPtr joy_msg)
 {
   RCLCPP_DEBUG(get_logger(), "Processing callback for /joy topic");
-  try {
-    MsgTwist twist_msg;
-    if (joy_msg->buttons.at(DEAD_MAN_SWITCH)) {
-      convert_joy_to_twist(joy_msg, twist_msg);
-    }
-    twist_pub_->publish(twist_msg);
-  } catch (const std::exception & exception) {
-    RCLCPP_ERROR(get_logger(), exception.what());
+  MsgTwist twist_msg;
+  if (joy_msg->buttons.at(DEAD_MAN_SWITCH)) {
+    convert_joy_to_twist(joy_msg, twist_msg);
   }
+  twist_pub_->publish(twist_msg);
   RCLCPP_DEBUG(get_logger(), "Finished callback for /joy topic");
 }
 

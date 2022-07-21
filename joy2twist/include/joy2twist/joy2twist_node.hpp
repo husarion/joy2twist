@@ -2,12 +2,12 @@
 #define JOY2TWIST_JOY2TWIST_NODE_HPP
 
 #include <map>
-#include <rclcpp/rclcpp.hpp>
 #include <string>
+
+#include <rclcpp/rclcpp.hpp>
 
 #include <geometry_msgs/msg/twist.hpp>
 #include <sensor_msgs/msg/joy.hpp>
-
 
 namespace joy2twist
 {

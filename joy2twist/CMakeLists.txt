@@ -14,16 +14,16 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GCC_COVERAGE_COMPILE_FLAGS}")
 
 find_package(ament_cmake REQUIRED)
 find_package(ament_index_cpp REQUIRED)
-find_package(geometry_msgs REQUIRED)
-find_package(joy_linux REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(geometry_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
+find_package(joy_linux REQUIRED)
 include_directories(include)
 
 add_executable(
   joy2twist
   src/joy2twist.cpp
-  src/ros/joy2twist_node.cpp
+  src/joy2twist_node.cpp
 )
 
 ament_target_dependencies(joy2twist
