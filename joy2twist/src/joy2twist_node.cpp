@@ -13,10 +13,23 @@ Joy2TwistNode::Joy2TwistNode(std::shared_ptr<ros::NodeHandle> nh) : nh_(std::mov
 void Joy2TwistNode::load_parameters()
 {
   nh_->param(
-    "/joy2twist_node/linear_velocity_factor", linear_velocity_factors_, defaults::VELOCITY_FACTORS);
+    "/joy2twist_node/linear_velocity_factor/fast", linear_velocity_factors_[FAST], defaults::VELOCITY_FACTORS.at(FAST));
+  nh_->param(
+    "/joy2twist_node/linear_velocity_factor/regular", linear_velocity_factors_[REGULAR], defaults::VELOCITY_FACTORS.at(REGULAR));
+  nh_->param(
+    "/joy2twist_node/linear_velocity_factor/slow", linear_velocity_factors_[SLOW], defaults::VELOCITY_FACTORS.at(SLOW));
+  
+    nh_->param(
+    "/joy2twist_node/angular_velocity_factor/fast", angular_velocity_factors_[FAST], defaults::VELOCITY_FACTORS.at(FAST));
+    nh_->param(
+    "/joy2twist_node/angular_velocity_factor/regular", angular_velocity_factors_[REGULAR], defaults::VELOCITY_FACTORS.at(REGULAR));
+    nh_->param(
+    "/joy2twist_node/angular_velocity_factor/slow", angular_velocity_factors_[SLOW], defaults::VELOCITY_FACTORS.at(SLOW));
+
   nh_->param(
     "/joy2twist_node/angular_velocity_factor", angular_velocity_factors_,
     defaults::VELOCITY_FACTORS);
+  
   nh_->param(
     "/joy2twist_node/button_index_map/axis/angular_z", button_index_.angular_z,
     defaults::ANGULAR_Z);
