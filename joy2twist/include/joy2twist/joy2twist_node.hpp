@@ -43,7 +43,7 @@ private:
 
   void joy_cb(const MsgJoy & joy_msg);
   void convert_joy_to_twist(const MsgJoy & joy_msg, MsgTwist & twist_msg);
-  std::pair<float, float> determine_speed_mode(const MsgJoy & joy_msg);
+  std::pair<float, float> determine_velocity_factor(const MsgJoy & joy_msg);
 
   std::map<std::string, float> linear_velocity_factors_;
   std::map<std::string, float> angular_velocity_factors_;

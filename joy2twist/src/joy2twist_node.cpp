@@ -47,14 +47,14 @@ void Joy2TwistNode::joy_cb(const MsgJoy & joy_msg)
 void Joy2TwistNode::convert_joy_to_twist(const MsgJoy & joy_msg, MsgTwist & twist_msg)
 {
   float linear_velocity_factor{}, angular_velocity_factor{};
-  std::tie(linear_velocity_factor, angular_velocity_factor) = determine_speed_mode(joy_msg);
+  std::tie(linear_velocity_factor, angular_velocity_factor) = determine_velocity_factor(joy_msg);
 
   twist_msg.angular.z = angular_velocity_factor * joy_msg.axes.at(button_index_.angular_z);
   twist_msg.linear.x = linear_velocity_factor * joy_msg.axes.at(button_index_.linear_x);
   twist_msg.linear.y = linear_velocity_factor * joy_msg.axes.at(button_index_.linear_y);
 }
 
-std::pair<float, float> Joy2TwistNode::determine_speed_mode(const MsgJoy & joy_msg)
+std::pair<float, float> Joy2TwistNode::determine_velocity_factor(const MsgJoy & joy_msg)
 {
   float linear_velocity_factor = linear_velocity_factors_.at(REGULAR);
   float angular_velocity_factor = angular_velocity_factors_.at(REGULAR);
