@@ -8,8 +8,9 @@ int main(int argc, char * argv[])
 {
   ros::init(argc, argv, "joy2twist_node");
 
+  auto private_nh = std::make_shared<ros::NodeHandle>("~");
   auto nh = std::make_shared<ros::NodeHandle>();
-  Joy2TwistNode joy2twist_node(nh);
+  Joy2TwistNode joy2twist_node(private_nh, nh);
 
   ROS_INFO("Initialized joy2twist node!");
 

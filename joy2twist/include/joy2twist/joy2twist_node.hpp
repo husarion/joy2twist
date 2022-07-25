@@ -1,12 +1,9 @@
-#ifndef JOY2TWIST_JOY2TWIST_NODE_HPP
-#define JOY2TWIST_JOY2TWIST_NODE_HPP
-
-#include <string.h>
+#ifndef JOY2TWIST_JOY2TWIST_NODE_HPP_
+#define JOY2TWIST_JOY2TWIST_NODE_HPP_
 
 #include <map>
 #include <utility>
 
-#include <ros/console.h>
 #include <ros/ros.h>
 
 #include <geometry_msgs/Twist.h>
@@ -31,9 +28,10 @@ struct ButtonIndex
 class Joy2TwistNode
 {
 public:
-  Joy2TwistNode(std::shared_ptr<ros::NodeHandle> nh);
+  Joy2TwistNode(std::shared_ptr<ros::NodeHandle> private_nh, std::shared_ptr<ros::NodeHandle> nh);
 
 private:
+  std::shared_ptr<ros::NodeHandle> p_nh_;
   std::shared_ptr<ros::NodeHandle> nh_;
 
   void load_parameters();
@@ -71,4 +69,4 @@ static constexpr char SLOW[]{"slow"};
 
 };  // namespace joy2twist
 
-#endif  // JOY2TWIST_JOY2TWIST_NODE_HPP
+#endif  // JOY2TWIST_JOY2TWIST_NODE_HPP_
