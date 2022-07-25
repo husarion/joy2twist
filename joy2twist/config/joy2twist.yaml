@@ -1,6 +1,6 @@
 /joy2twist_node:
   linear_velocity_factor:
-    fast: 10.0
+    fast: 1.0
     regular: 0.5
     slow: 0.2
 
