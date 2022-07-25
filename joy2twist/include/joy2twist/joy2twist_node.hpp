@@ -1,5 +1,5 @@
-#ifndef JOY2TWIST_JOY2TWIST_NODE_HPP
-#define JOY2TWIST_JOY2TWIST_NODE_HPP
+#ifndef JOY2TWIST_JOY2TWIST_NODE_HPP_
+#define JOY2TWIST_JOY2TWIST_NODE_HPP_
 
 #include <map>
 #include <string>
@@ -66,4 +66,4 @@ static constexpr char REGULAR[]{"regular"};
 static constexpr char SLOW[]{"slow"};
 }  // namespace joy2twist
 
-#endif  // JOY2TWIST_JOY2TWIST_NODE_HPP
+#endif  // JOY2TWIST_JOY2TWIST_NODE_HPP_

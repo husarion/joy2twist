@@ -15,8 +15,8 @@ Joy2TwistNode::Joy2TwistNode() : Node("joy2twist_node")
     rmw_qos_profile_sensor_data);
 
   joy_sub_ =
-    create_subscription<MsgJoy>("/joy", sensor_qos, std::bind(&Joy2TwistNode::joy_cb, this, _1));
-  twist_pub_ = create_publisher<MsgTwist>("/cmd_vel", sensor_qos);
+    create_subscription<MsgJoy>("joy", sensor_qos, std::bind(&Joy2TwistNode::joy_cb, this, _1));
+  twist_pub_ = create_publisher<MsgTwist>("cmd_vel", sensor_qos);
 
   RCLCPP_INFO(get_logger(), "Joy2Twist node is initialized");
 }
