@@ -33,7 +33,7 @@ ament_target_dependencies(joy2twist
   geometry_msgs  
   sensor_msgs
   joy_linux
-  )
+)
 
 install(TARGETS joy2twist
   DESTINATION lib/${PROJECT_NAME}
