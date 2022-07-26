@@ -4,7 +4,7 @@ namespace joy2twist
 {
 Joy2TwistNode::Joy2TwistNode(
   std::shared_ptr<ros::NodeHandle> private_nh, std::shared_ptr<ros::NodeHandle> nh)
-: p_nh_(std::move(private_nh)), nh_(std::move(nh))
+: ph_(std::move(private_nh)), nh_(std::move(nh))
 {
   load_parameters();
 
@@ -14,33 +14,20 @@ Joy2TwistNode::Joy2TwistNode(
 
 void Joy2TwistNode::load_parameters()
 {
-  p_nh_->param(
-    "linear_velocity_factor/fast", linear_velocity_factors_[FAST],
-    defaults::VELOCITY_FACTORS.at(FAST));
-  p_nh_->param(
-    "linear_velocity_factor/regular", linear_velocity_factors_[REGULAR],
-    defaults::VELOCITY_FACTORS.at(REGULAR));
-  p_nh_->param(
-    "linear_velocity_factor/slow", linear_velocity_factors_[SLOW],
-    defaults::VELOCITY_FACTORS.at(SLOW));
+  ph_->param("linear_velocity_factor/fast", linear_velocity_factors_[FAST], 1.0);
+  ph_->param("linear_velocity_factor/regular", linear_velocity_factors_[REGULAR], 0.5);
+  ph_->param("linear_velocity_factor/slow", linear_velocity_factors_[SLOW], 0.2);
 
-  p_nh_->param(
-    "angular_velocity_factor/fast", angular_velocity_factors_[FAST],
-    defaults::VELOCITY_FACTORS.at(FAST));
-  p_nh_->param(
-    "angular_velocity_factor/regular", angular_velocity_factors_[REGULAR],
-    defaults::VELOCITY_FACTORS.at(REGULAR));
-  p_nh_->param(
-    "angular_velocity_factor/slow", angular_velocity_factors_[SLOW],
-    defaults::VELOCITY_FACTORS.at(SLOW));
+  ph_->param("angular_velocity_factor/fast", angular_velocity_factors_[FAST], 1.0);
+  ph_->param("angular_velocity_factor/regular", angular_velocity_factors_[REGULAR], 0.5);
+  ph_->param("angular_velocity_factor/slow", angular_velocity_factors_[SLOW], 0.2);
 
-  p_nh_->param("button_index_map/axis/angular_z", button_index_.angular_z, defaults::ANGULAR_Z);
-  p_nh_->param("button_index_map/axis/linear_x", button_index_.linear_x, defaults::LINEAR_X);
-  p_nh_->param("button_index_map/axis/linear_y", button_index_.linear_y, defaults::LINEAR_Y);
-  p_nh_->param(
-    "button_index_map/dead_man_switch", button_index_.dead_man_switch, defaults::DEAD_MAN_SWITCH);
-  p_nh_->param("button_index_map/fast_mode", button_index_.fast_mode, defaults::FAST_MODE);
-  p_nh_->param("button_index_map/slow_mode", button_index_.slow_mode, defaults::SLOW_MODE);
+  ph_->param("button_index_map/axis/angular_z", button_index_.angular_z, 0);
+  ph_->param("button_index_map/axis/linear_x", button_index_.linear_x, 3);
+  ph_->param("button_index_map/axis/linear_y", button_index_.linear_y, 2);
+  ph_->param("button_index_map/dead_man_switch", button_index_.dead_man_switch, 4);
+  ph_->param("button_index_map/fast_mode", button_index_.fast_mode, 7);
+  ph_->param("button_index_map/slow_mode", button_index_.slow_mode, 5);
 }
 
 void Joy2TwistNode::joy_cb(const MsgJoy & joy_msg)
@@ -66,8 +53,8 @@ void Joy2TwistNode::convert_joy_to_twist(const MsgJoy & joy_msg, MsgTwist & twis
 
 std::pair<float, float> Joy2TwistNode::determine_velocity_factor(const MsgJoy & joy_msg)
 {
-  float linear_velocity_factor = linear_velocity_factors_.at(REGULAR);
-  float angular_velocity_factor = angular_velocity_factors_.at(REGULAR);
+  auto linear_velocity_factor = linear_velocity_factors_.at(REGULAR);
+  auto angular_velocity_factor = angular_velocity_factors_.at(REGULAR);
 
   if (joy_msg.buttons.at(button_index_.slow_mode) && !joy_msg.buttons.at(button_index_.fast_mode)) {
     linear_velocity_factor = linear_velocity_factors_.at(SLOW);

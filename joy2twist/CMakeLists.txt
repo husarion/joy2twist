@@ -20,12 +20,12 @@ include_directories(
 )
 
 add_library(${PROJECT_NAME}
-  src/joy2twist.cpp
+  src/main.cpp
   src/joy2twist_node.cpp
 )
 
 add_executable(${PROJECT_NAME}_node 
-  src/joy2twist.cpp
+  src/main.cpp
   src/joy2twist_node.cpp
 )
 
