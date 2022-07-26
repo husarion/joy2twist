@@ -23,24 +23,18 @@ Joy2TwistNode::Joy2TwistNode() : Node("joy2twist_node")
 
 void Joy2TwistNode::declare_parameters()
 {
-  this->declare_parameter<float>(
-    "linear_velocity_factor.fast", defaults::VELOCITY_FACTORS.at(FAST));
-  this->declare_parameter<float>(
-    "linear_velocity_factor.regular", defaults::VELOCITY_FACTORS.at(REGULAR));
-  this->declare_parameter<float>(
-    "linear_velocity_factor.slow", defaults::VELOCITY_FACTORS.at(SLOW));
-  this->declare_parameter<float>(
-    "angular_velocity_factor.fast", defaults::VELOCITY_FACTORS.at(FAST));
-  this->declare_parameter<float>(
-    "angular_velocity_factor.regular", defaults::VELOCITY_FACTORS.at(REGULAR));
-  this->declare_parameter<float>(
-    "angular_velocity_factor.slow", defaults::VELOCITY_FACTORS.at(SLOW));
-  this->declare_parameter<int>("button_index_map.axis.angular_z", defaults::ANGULAR_Z);
-  this->declare_parameter<int>("button_index_map.axis.linear_x", defaults::LINEAR_X);
-  this->declare_parameter<int>("button_index_map.axis.linear_y", defaults::LINEAR_Y);
-  this->declare_parameter<int>("button_index_map.dead_man_switch", defaults::DEAD_MAN_SWITCH);
-  this->declare_parameter<int>("button_index_map.fast_mode", defaults::FAST_MODE);
-  this->declare_parameter<int>("button_index_map.slow_mode", defaults::SLOW_MODE);
+  this->declare_parameter<float>("linear_velocity_factor.fast", 1.0);
+  this->declare_parameter<float>("linear_velocity_factor.regular", 0.5);
+  this->declare_parameter<float>("linear_velocity_factor.slow", 0.2);
+  this->declare_parameter<float>("angular_velocity_factor.fast", 1.0);
+  this->declare_parameter<float>("angular_velocity_factor.regular", 0.5);
+  this->declare_parameter<float>("angular_velocity_factor.slow", 0.2);
+  this->declare_parameter<int>("button_index_map.axis.angular_z", 0);
+  this->declare_parameter<int>("button_index_map.axis.linear_x", 3);
+  this->declare_parameter<int>("button_index_map.axis.linear_y", 2);
+  this->declare_parameter<int>("button_index_map.dead_man_switch", 4);
+  this->declare_parameter<int>("button_index_map.fast_mode", 7);
+  this->declare_parameter<int>("button_index_map.slow_mode", 5);
 }
 
 void Joy2TwistNode::load_parameters()
