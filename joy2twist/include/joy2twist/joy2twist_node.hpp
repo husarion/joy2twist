@@ -48,19 +48,6 @@ private:
   rclcpp::Publisher<MsgTwist>::SharedPtr twist_pub_;
 };
 
-namespace defaults
-{
-static constexpr int DEAD_MAN_SWITCH{4};
-static constexpr int FAST_MODE{7};
-static constexpr int SLOW_MODE{5};
-
-static constexpr int ANGULAR_Z{0};
-static constexpr int LINEAR_X{3};
-static constexpr int LINEAR_Y{2};
-
-const std::map<std::string, float> VELOCITY_FACTORS{{"fast", 1.0}, {"regular", 0.5}, {"slow", 0.2}};
-}  // namespace defaults
-
 static constexpr char FAST[]{"fast"};
 static constexpr char REGULAR[]{"regular"};
 static constexpr char SLOW[]{"slow"};
