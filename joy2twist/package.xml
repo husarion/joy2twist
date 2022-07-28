@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>joy2twist</name>
+  <version>1.0.0</version>
+  <description>The joy2twist package</description>
+
+  <maintainer email="pawel.irzyk@husarion.com">Paweł Irzyk</maintainer>
+
+  <license>MIT</license>
+
+  <url type="website">https://github.com/husarion/joy2twist</url>
+
+  <author email="pawel.irzyk@husarion.com">Paweł Irzyk</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>joy</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_export_depend>roscpp</build_export_depend>
+  <build_export_depend>joy</build_export_depend>
+  <build_export_depend>geometry_msgs</build_export_depend>
+  <build_export_depend>sensor_msgs</build_export_depend>
+  <exec_depend>roscpp</exec_depend>
+  <exec_depend>joy</exec_depend>
+  <exec_depend>geometry_msgs</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+
+</package>

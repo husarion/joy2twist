@@ -1,0 +1,13 @@
+<launch>
+
+  <arg name="docker" default="false" />
+
+  <node name="f710_joy_node" pkg="joy" type="joy_node">
+    <param name="autorepeat_rate" type="double" value="10" />
+  </node>
+
+  <include file="$(find joy2twist)/launch/joy2twist.launch">
+    <arg name="docker" value="$(arg docker)"/>
+  </include>
+
+</launch>
