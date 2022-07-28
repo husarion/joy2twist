@@ -14,7 +14,7 @@ int main(int argc, char * argv[])
 
   ROS_INFO_STREAM(
     "[" << ros::this_node::getName() << "]"
-        << " Initialized joy2twist node!");
+        << " Initialized node!");
 
   try {
     ros::spin();
