@@ -15,10 +15,10 @@ int main(int argc, char * argv[])
   try {
     executor.spin();
   } catch (const std::runtime_error & err) {
-    std::cerr << "[Joy2TwistNode] Caught exception: " << err.what() << std::endl;
+    std::cerr << "[/joy2twist_node] Caught exception: " << err.what() << std::endl;
   }
 
-  std::cout << "[Joy2TwistNode] Shutting down" << std::endl;
+  std::cout << "[/joy2twist_node] Shutting down" << std::endl;
   rclcpp::shutdown();
   return 0;
 }
