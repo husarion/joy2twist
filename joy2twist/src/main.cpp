@@ -12,15 +12,19 @@ int main(int argc, char * argv[])
   auto nh = std::make_shared<ros::NodeHandle>();
   Joy2TwistNode joy2twist_node(private_nh, nh);
 
-  ROS_INFO("Initialized joy2twist node!");
+  ROS_INFO_STREAM(
+    "[" << ros::this_node::getName() << "]"
+        << " Initialized joy2twist node!");
 
   try {
     ros::spin();
   } catch (const std::exception & e) {
-    std::cerr << "[Joy2TwistNode] Caught exception: " << e.what() << std::endl;
+    std::cerr << "[" << ros::this_node::getName() << "]"
+              << " Caught exception: " << e.what() << std::endl;
   }
 
-  std::cout << "[Joy2TwistNode] Shutting down" << std::endl;
+  std::cout << "[" << ros::this_node::getName() << "]"
+            << " Shutting down" << std::endl;
   ros::shutdown();
   return 0;
 }
