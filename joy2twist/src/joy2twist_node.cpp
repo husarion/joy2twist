@@ -32,13 +32,11 @@ void Joy2TwistNode::load_parameters()
 
 void Joy2TwistNode::joy_cb(const MsgJoy & joy_msg)
 {
-  ROS_DEBUG("Processing callback for /joy topic");
   MsgTwist twist_msg;
   if (joy_msg.buttons.at(button_index_.dead_man_switch)) {
     convert_joy_to_twist(joy_msg, twist_msg);
   }
   twist_pub_.publish(twist_msg);
-  ROS_DEBUG("Finished callback for /joy topic");
 }
 
 void Joy2TwistNode::convert_joy_to_twist(const MsgJoy & joy_msg, MsgTwist & twist_msg)
