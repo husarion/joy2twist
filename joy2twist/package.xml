@@ -5,7 +5,7 @@
   <version>1.0.0</version>
   <description>The joy2twist package</description>
   <maintainer email="pawel.irzyk@husarion.com">Paweł Irzyk</maintainer>
-  <license>MIT</license>
+  <license>Apache License 2.0</license>
   <url type="website">https://github.com/husarion/joy2twist</url>
   <author email="pawel.irzyk@husarion.com">Paweł Irzyk</author>
   
