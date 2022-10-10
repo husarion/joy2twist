@@ -30,7 +30,7 @@ def generate_launch_description():
     joy_linux_node = Node(
         package="joy_linux",
         executable="joy_linux_node",
-        output={"stdout": "screen", "stderr": "screen"},
+        # output={"stdout": "screen", "stderr": "screen"},
         emulate_tty="true",
     )
 
