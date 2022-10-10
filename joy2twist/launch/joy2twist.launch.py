@@ -22,7 +22,7 @@ def generate_launch_description():
         package="joy2twist",
         executable="joy2twist",
         parameters=[LaunchConfiguration("joy2twist_params_file")],
-        output={"stdout": "screen", "stderr": "screen"},
+        # output={"stdout": "screen", "stderr": "screen"},
         emulate_tty="true",
     )
 
