@@ -70,8 +70,6 @@ jobs:
         push: true
         build-args: |
           ROS_DISTRO=${{ matrix.ros-distro }}
-        build-args: |
-          ROS_DISTRO=${{ matrix.ros-distro }}
         tags: husarion/joy2twist:${{ matrix.ros-distro }}-${{ github.head_ref || github.ref_name }} 
         # cache-from: type=registry,ref=husarion/rplidar:${{ matrix.ros-distro }}-${{ github.head_ref || github.ref_name }} 
         # cache-to: type=inline
