@@ -10,7 +10,7 @@ WORKDIR /ros2_ws
 COPY ./joy2twist ./src/joy2twist
 
 # Update Ubuntu Software repository and initialise ROS workspace
-RUN apt update -y && apt upgrade -y && apt install \
+RUN apt update -y && apt upgrade -y && apt install -y \
         ros-$ROS_DISTRO-rmw-fastrtps-cpp \
         ros-$ROS_DISTRO-rmw-cyclonedds-cpp && \
     source /opt/ros/$ROS_DISTRO/setup.bash && \
