@@ -34,9 +34,13 @@ void Joy2TwistNode::joy_cb(const MsgJoy & joy_msg)
 {
   MsgTwist twist_msg;
   if (joy_msg.buttons.at(button_index_.dead_man_switch)) {
+    driving_mode_ = true;
     convert_joy_to_twist(joy_msg, twist_msg);
+    twist_pub_.publish(twist_msg);
+  } else if (driving_mode_) {
+    driving_mode_ = false;
+    twist_pub_.publish(twist_msg);
   }
-  twist_pub_.publish(twist_msg);
 }
 
 void Joy2TwistNode::convert_joy_to_twist(const MsgJoy & joy_msg, MsgTwist & twist_msg)
