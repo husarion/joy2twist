@@ -27,7 +27,8 @@ SHELL ["/bin/bash", "-c"]
 RUN apt update && apt install -y \
         ros-$ROS_DISTRO-joy-linux \
         ros-$ROS_DISTRO-rmw-fastrtps-cpp \
-        ros-$ROS_DISTRO-rmw-cyclonedds-cpp && \
+        ros-$ROS_DISTRO-rmw-cyclonedds-cpp \
+		gettext-base && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
