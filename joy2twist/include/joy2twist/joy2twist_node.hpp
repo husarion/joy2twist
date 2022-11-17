@@ -43,6 +43,7 @@ private:
   std::map<std::string, float> angular_velocity_factors_;
 
   ButtonIndex button_index_;
+  bool driving_mode_;
 
   rclcpp::Subscription<MsgJoy>::SharedPtr joy_sub_;
   rclcpp::Publisher<MsgTwist>::SharedPtr twist_pub_;
