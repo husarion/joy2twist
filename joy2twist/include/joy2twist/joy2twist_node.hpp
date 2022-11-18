@@ -47,6 +47,7 @@ private:
   std::map<std::string, double> angular_velocity_factors_;
 
   ButtonIndex button_index_;
+  bool driving_mode_;
 };
 
 static constexpr char FAST[]{"fast"};
