@@ -29,8 +29,6 @@ RUN apt update && apt install -y \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-WORKDIR /ros2_ws
-
 COPY --from=pkg-builder /ros2_ws /ros2_ws
 
 RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
