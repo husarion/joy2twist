@@ -9,14 +9,8 @@ Joy2TwistNode::Joy2TwistNode() : Node("joy2twist_node")
   declare_parameters();
   load_parameters();
 
-  auto sensor_qos = rclcpp::QoS(
-    rclcpp::QoSInitialization(
-      rmw_qos_profile_sensor_data.history, rmw_qos_profile_sensor_data.depth),
-    rmw_qos_profile_sensor_data);
-
-  joy_sub_ =
-    create_subscription<MsgJoy>("joy", sensor_qos, std::bind(&Joy2TwistNode::joy_cb, this, _1));
-  twist_pub_ = create_publisher<MsgTwist>("cmd_vel", sensor_qos);
+  joy_sub_ = create_subscription<MsgJoy>("joy", rclcpp::SensorDataQoS(), std::bind(&Joy2TwistNode::joy_cb, this, _1));
+  twist_pub_ = create_publisher<MsgTwist>("cmd_vel", rclcpp::QoS(rclcpp::KeepLast(1)).durability_volatile().reliable());
 
   RCLCPP_INFO(get_logger(), "Initialized node!");
 }
