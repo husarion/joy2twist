@@ -31,5 +31,7 @@ RUN apt update && apt install -y \
 
 COPY --from=pkg-builder /ros2_ws /ros2_ws
 
+RUN echo $(cat /ros2_ws/src/joy2twist/package.xml | grep '<version>' | sed -r 's/.*<version>([0-9]+.[0-9]+.[0-9]+)<\/version>/\1/g') > /version.txt
+
 RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
 RUN echo "source /ros2_ws/install/setup.bash" >> ~/.bashrc
