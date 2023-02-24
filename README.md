@@ -26,7 +26,7 @@ See `ls /dev/input | grep js` and find your joy number. If it differs, apply cha
 If neither `RB` nor `RT` is pressed, the robot operates in *regular* driving mode.
 
 To drive robot use sticks.
-By default, linear `X` and `Y` are held by the right stick. Angular `Z` is controlled with the left stick.
+By default, linear `X` and `Y` are held by the left stick. Angular `Z` is controlled with the right stick.
 
 ---
 ## ROS node API
