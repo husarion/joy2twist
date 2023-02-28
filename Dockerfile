@@ -1,4 +1,5 @@
 ARG ROS_DISTRO=galactic
+ARG PREFIX=
 
 FROM ros:$ROS_DISTRO-ros-base AS pkg-builder
 
@@ -19,7 +20,7 @@ RUN apt update -y && apt upgrade -y &&  \
     apt clean && \
     rm -rf /var/lib/apt/lists/*
 
-FROM husarnet/ros:$ROS_DISTRO-ros-core
+FROM husarnet/ros:${PREFIX}${ROS_DISTRO}-ros-core
 
 # select bash as default shell
 SHELL ["/bin/bash", "-c"]
@@ -33,5 +34,3 @@ COPY --from=pkg-builder /ros2_ws /ros2_ws
 
 RUN echo $(cat /ros2_ws/src/joy2twist/package.xml | grep '<version>' | sed -r 's/.*<version>([0-9]+.[0-9]+.[0-9]+)<\/version>/\1/g') > /version.txt
 
-RUN echo "source /opt/ros/$ROS_DISTRO/setup.bash" >> ~/.bashrc
-RUN echo "source /ros2_ws/install/setup.bash" >> ~/.bashrc
