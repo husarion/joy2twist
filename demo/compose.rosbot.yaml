@@ -14,10 +14,11 @@ services:
     environment:
       - ROS_MASTER_URI=http://ros-master:11311
     volumes: 
-      - ../joy2twist/config/joy2twist.yaml:/ros_ws/src/joy2twist/joy2twist/config/joy2twist.yaml
+      - ../joy2twist/config/joy2twist.yaml:/joy2twist.yaml
     command: >
-      roslaunch --wait 
-      joy2twist gamepad_controller.launch docker:=true
+      roslaunch --wait
+      joy2twist gamepad_controller.launch 
+      joy2twist_params_file:=/joy2twist.yaml
 
   rosbot:
     image: husarion/rosbot:melodic

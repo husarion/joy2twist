@@ -11,8 +11,7 @@ services:
     environment:
       - ROS_IP=10.15.20.2
       - ROS_MASTER_URI=http://10.15.20.2:11311
-    volumes:
-      - ../joy2twist/config/joy2twist_panther.yaml:/ros_ws/src/joy2twist/joy2twist/config/joy2twist.yaml
     command: >
       roslaunch --wait
-      joy2twist gamepad_controller.launch docker:=true
+      joy2twist gamepad_controller.launch
+      joy2twist_params_file:=$(find joy2twist)/config/joy2twist_panther.yaml

@@ -1,9 +1,8 @@
 <launch>
-  <arg name="docker" default="false" />
+  <arg name="joy2twist_params_file" default="$(find joy2twist)/config/joy2twist.yaml" />
 
   <node name="joy2twist_node" pkg="joy2twist" type="joy2twist_node" output="screen">
-    <rosparam if="$(arg docker)" file="/ros_ws/src/joy2twist/joy2twist/config/joy2twist.yaml" />
-    <rosparam unless="$(arg docker)" file="$(find joy2twist)/config/joy2twist.yaml" />
+    <rosparam file="$(arg joy2twist_params_file)" />
   </node>
 
 </launch>

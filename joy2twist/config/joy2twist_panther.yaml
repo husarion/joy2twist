@@ -8,6 +8,12 @@ angular_velocity_factor:
   regular: 0.5
   slow: 0.25
 
+e_stop:
+  present: true
+  topic: /panther/hardware/e_stop
+  reset_srv: /panther/hardware/e_stop_reset
+  trigger_srv: /panther/hardware/e_stop_trigger
+
 # This button mapping should be adjusted to the specific controller
 # The following map is suited for Logitech F710
 button_index_map:
@@ -18,3 +24,6 @@ button_index_map:
   dead_man_switch: 4 # LB
   fast_mode: 7 # RT
   slow_mode: 5 # RB
+  e_stop_reset: 1 # A
+  e_stop_trigger: 2 # B
+  enable_e_stop_reset: 6 # LT
