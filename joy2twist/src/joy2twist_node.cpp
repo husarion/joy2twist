@@ -13,6 +13,8 @@ Joy2TwistNode::Joy2TwistNode() : Node("joy2twist_node")
   twist_pub_ = create_publisher<MsgTwist>("cmd_vel", rclcpp::QoS(rclcpp::KeepLast(1)).durability_volatile().reliable());
 
   RCLCPP_INFO(get_logger(), "Initialized node!");
+
+  driving_mode_ = false; // Başlangıçta sürüş modu pasif 
 }
 
 void Joy2TwistNode::declare_parameters()
@@ -50,14 +52,25 @@ void Joy2TwistNode::load_parameters()
 void Joy2TwistNode::joy_cb(const MsgJoy::SharedPtr joy_msg)
 {
   MsgTwist twist_msg;
+
+  // Dead man switch'e ilk basıldığında veya tekrar basıldığında sürüş modunu değiştir
   if (joy_msg->buttons.at(button_index_.dead_man_switch)) {
-    driving_mode_ = true;
+    if (!driving_mode_) {
+      driving_mode_ = true;
+    } else {
+      driving_mode_ = false;
+    }
+  }
+
+  // Eğer sürüş modu aktifse, joy verilerini kullanarak twist mesajını oluştur ve yayınla
+  if (driving_mode_) {
     convert_joy_to_twist(joy_msg, twist_msg);
     twist_pub_->publish(twist_msg);
-  } else if (driving_mode_) {
-    driving_mode_ = false;
+  } else {
+    // Eğer sürüş modu pasifse, twist mesajını yayınlamayı unutma
     twist_pub_->publish(twist_msg);
   }
+
 }
 
 void Joy2TwistNode::convert_joy_to_twist(const MsgJoy::SharedPtr joy_msg, MsgTwist & twist_msg)
@@ -87,3 +100,4 @@ std::pair<float, float> Joy2TwistNode::determine_velocity_factor(const MsgJoy::S
 }
 
 }  // namespace joy2twist
+

@@ -15,8 +15,8 @@
     button_index_map:
       axis:
         angular_z: 2 # Right joystick
-        linear_x: 1 # Left joystick
-        linear_y: 0 # Left joystick
-      dead_man_switch: 4 # LB
-      fast_mode: 7 # RT
+        linear_x: 5 # Left joystick
+        linear_y: 4 # Left joystick
+      dead_man_switch: 1 # A
+      fast_mode: 4 # RT
       slow_mode: 5 # RB
