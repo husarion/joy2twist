@@ -5,13 +5,15 @@ from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument, IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
-
+import os
 
 def generate_launch_description():
 
     joy2twist_cfg_path = PathJoinSubstitution(
         [FindPackageShare("joy2twist"), "config", "joy2twist.yaml"]
     )
+    
+    prefix = os.getenv("SMR_PREFIX")
 
     joy2twist_params_file_argument = DeclareLaunchArgument(
         "joy2twist_params_file",
@@ -23,7 +25,8 @@ def generate_launch_description():
         package="joy2twist",
         rel_launch_path="launch/joy2twist.launch.py",
         arguments={
-            "joy2twist_params_file": LaunchConfiguration("joy2twist_params_file")
+            "joy2twist_params_file": LaunchConfiguration("joy2twist_params_file"),
+            "prefix": prefix,
         },
     )
 
@@ -32,6 +35,7 @@ def generate_launch_description():
         executable="joy_linux_node",
         # output={"stdout": "screen", "stderr": "screen"},
         emulate_tty="true",
+        namespace=prefix,
     )
 
     actions = [joy2twist_params_file_argument, joy2twist_launch, joy_linux_node]

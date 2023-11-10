@@ -21,8 +21,10 @@ def generate_launch_description():
     joy2twist_node = Node(
         package="joy2twist",
         executable="joy2twist",
+        name="joy_teleop",
         parameters=[LaunchConfiguration("joy2twist_params_file")],
-        # output={"stdout": "screen", "stderr": "screen"},
+        namespace=LaunchConfiguration('prefix'),
+        remappings=[('cmd_vel', 'twist/joy_vel')],
         emulate_tty="true",
     )
 
