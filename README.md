@@ -1,6 +1,6 @@
 # Joy2Twist
 
-Dockerized ROS node allowing control of ROS-powered mobile robots with Logitech F710 gamepad. Joy2Twist node is converting `sensor_msgs/Joy` message to `geometry_msgs/Twist` in order to provide velocity commands for the mobile robot. Therefore this package is compliant (but not supported by Husarion) with any other gamepad controller which is able to publish the `sensor_msgs/Joy` message. 
+Dockerized ROS node allowing control of ROS-powered mobile robots with Logitech F710 gamepad. Joy2Twist node is converting `sensor_msgs/Joy` message to `geometry_msgs/Twist` in order to provide velocity commands for the mobile robot. Therefore this package is compliant (but not supported by Husarion) with any other gamepad controller which is able to publish the `sensor_msgs/Joy` message.
 
 ## Setup joy
 
@@ -46,7 +46,7 @@ ROS node is translating `/joy` topic to `/cmd_vel` topic.
 
 Following parameters change joystick axes mapped to given robot axes of freedom. For more information about parameter values, refer to the joy package [wiki page](http://wiki.ros.org/joy#Logitech_Wireless_Gamepad_F710_.28DirectInput_Mode.29).
 
-- `~axis_linear_x`      *(int, default: 3)* 
+- `~axis_linear_x`      *(int, default: 3)*
 - `~axis_linear_y`      *(int, default: 2)*
 - `~axis_angular_z`     *(int, default: 0)*
 
@@ -90,8 +90,8 @@ Available on [Docker Hub](https://hub.docker.com/r/husarion/joy2twist/tags)
 3. Launch on ROSbot
 
     Go to the `joy2twist/demo` folder and run:
-    
+
     ```bash
     cd joy2twist/demo
-    docker compose -f compose.rosbot.yaml up
+    docker compose -f compose.rosbot.melodic.yaml up
     ```
