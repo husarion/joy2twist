@@ -14,7 +14,7 @@ x-cpu-config:
 
 services:
   rosbot_xl:
-    image: husarion/rosbot-xl-gazebo:humble-0.8.11-20231127
+    image: husarion/rosbot-xl-gazebo:humble-0.8.2-20230913-stable
     <<: *gpu-config
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
