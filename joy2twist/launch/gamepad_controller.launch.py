@@ -8,6 +8,12 @@ from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 
 
 def generate_launch_description():
+    namespace = LaunchConfiguration("namespace")
+    declare_namespace_arg = DeclareLaunchArgument(
+        "namespace",
+        default_value="",
+        description="Namespace for all topics and tfs",
+    )
 
     joy2twist_cfg_path = PathJoinSubstitution(
         [FindPackageShare("joy2twist"), "config", "joy2twist.yaml"]
@@ -19,12 +25,14 @@ def generate_launch_description():
         description="ROS2 parameters file to use with joy2twist node",
     )
 
-    joy2twist_launch = create_include_launch(
-        package="joy2twist",
-        rel_launch_path="launch/joy2twist.launch.py",
-        arguments={
-            "joy2twist_params_file": LaunchConfiguration("joy2twist_params_file")
-        },
+    joy2twist_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource(
+            [PathJoinSubstitution([FindPackageShare("joy2twist"), "launch", "joy2twist.launch.py"])]
+        ),
+        launch_arguments={
+            "joy2twist_params_file": LaunchConfiguration("joy2twist_params_file"),
+            "namespace": namespace,
+        }.items(),
     )
 
     joy_linux_node = Node(
@@ -32,18 +40,9 @@ def generate_launch_description():
         executable="joy_linux_node",
         # output={"stdout": "screen", "stderr": "screen"},
         emulate_tty="true",
+        namespace=namespace
     )
 
-    actions = [joy2twist_params_file_argument, joy2twist_launch, joy_linux_node]
+    actions = [declare_namespace_arg, joy2twist_params_file_argument, joy2twist_launch, joy_linux_node]
 
     return LaunchDescription(actions)
-
-
-def create_include_launch(package: str, rel_launch_path: str, arguments: dict):
-    included_launch = IncludeLaunchDescription(
-        PythonLaunchDescriptionSource(
-            [PathJoinSubstitution([FindPackageShare(package), rel_launch_path])]
-        ),
-        launch_arguments=arguments.items(),
-    )
-    return included_launch

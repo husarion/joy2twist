@@ -7,6 +7,12 @@ from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
 
 
 def generate_launch_description():
+    namespace = LaunchConfiguration("namespace")
+    declare_namespace_arg = DeclareLaunchArgument(
+        "namespace",
+        default_value="",
+        description="Namespace for all topics and tfs",
+    )
 
     joy2twist_cfg_path = PathJoinSubstitution(
         [FindPackageShare("joy2twist"), "config", "joy2twist.yaml"]
@@ -24,8 +30,9 @@ def generate_launch_description():
         parameters=[LaunchConfiguration("joy2twist_params_file")],
         # output={"stdout": "screen", "stderr": "screen"},
         emulate_tty="true",
+        namespace=namespace
     )
 
-    actions = [joy2twist_params_file_argument, joy2twist_node]
+    actions = [declare_namespace_arg, joy2twist_params_file_argument, joy2twist_node]
 
     return LaunchDescription(actions)
