@@ -67,31 +67,58 @@ The robot can be operated at 3 scales of speed depending on pressed buttons. It'
 
 Available on [Docker Hub](https://hub.docker.com/r/husarion/joy2twist/tags)
 
-### Demo
+## Demo
 
-#### Controlling ROSbot 2 with a Logitech F710 gamepad
+### Controlling ROSbot 2 with a Logitech F710 gamepad
 
-1. Clone this repo on your ROSbot:
+Connect Logitech F710 dongle to the ROSbot 2 and run (on ROSbot):
 
-    ```bash
-    git clone https://github.com/husarion/joy2twist.git
-    cd joy2twist/
-    ```
+```bash
+cd joy2twist/demo/single_robot
+docker compose -f compose.rosbot.melodic.yaml up
+ ```
 
-2. Create `demo/.env` based on `demo/.env.template` file and modify it if needed (see comments)
+### Different namespace demo with a Logitech F710 gamepad
 
-    ```bash
-    #SBC <> STM32 serial connection. Set:
-    #SERIAL_PORT=/dev/ttyS1 # ROSbot 2
-    #SERIAL_PORT=/dev/ttyS4 # ROSbot 2 PRO
-    SERIAL_PORT=/dev/ttyAMA0 # ROSbot 2R
-    ```
+Connect a Logitech F710 USB dongle to your PC. Clone this repo to your PC and go to the `joy2twist/demo/` directory and run in a separate terminal:
 
-3. Launch on ROSbot
+```bash
+./sync_with_robot.sh <YOUR_ROSBOT_IP>
+```
 
-    Go to the `joy2twist/demo` folder and run:
+Change the namespace in the `multiple_robots/.env` file:
 
-    ```bash
-    cd joy2twist/demo
-    docker compose -f compose.rosbot.melodic.yaml up
-    ```
+```bash
+ROS_NAMESPACE=robot1
+```
+
+Now SSH to your robot:
+
+```bash
+ssh husarion@<YOUR_ROSBOT_IP>
+```
+
+Go to the folder `/home/husarion/demo/multiple_robots`, and launch the container for ROSbot:
+
+```bash
+docker compose -f compose.rosbot2r.yaml up
+```
+
+> **Topic filtering**
+>
+> If you will then check on the PC the available ROS 2 nodes you will get:
+> 
+> ```bash
+> $ ros2 topic list
+> /parameter_events
+> /robot1/cmd_vel
+> /rosout
+> ```
+> 
+> Note that nly the single `/robot1/cmd_vel` topic is available outside the robot thanks to the configuration from the `ros2router_config.yaml` file.
+
+To run the `joy2twist` container execute the following command on your PC in the `joy2twist/demo/multiple_robots` directory:
+
+```
+docker compose -f compose.pc.yaml up
+```

@@ -1,0 +1,13 @@
+services:
+  joy2twist:
+    image: husarion/joy2twist:humble-add-namespace
+    network_mode: host
+    ipc: host
+    devices:
+      - /dev/input
+    volumes:
+      - ./joy2twist.yaml:/joy2twist.yaml
+    command: >
+      ros2 launch joy2twist gamepad_controller.launch.py
+        joy2twist_params_file:=/joy2twist.yaml
+        namespace:=${ROS_NAMESPACE}

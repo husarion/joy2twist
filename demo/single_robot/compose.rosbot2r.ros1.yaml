@@ -34,7 +34,7 @@ services:
     restart: unless-stopped
     tty: true
     devices:
-      - ${SERIAL_PORT}
+      - ${SERIAL_PORT:?err}
     environment:
       - SERIAL_PORT
       - ROS_MASTER_URI=http://ros-master:11311
