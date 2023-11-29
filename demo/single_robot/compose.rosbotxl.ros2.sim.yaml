@@ -1,0 +1,31 @@
+x-gpu-config:
+  &gpu-config
+  runtime: nvidia
+  environment:
+    - DISPLAY=${DISPLAY:?err}
+    - NVIDIA_VISIBLE_DEVICES=all
+    - NVIDIA_DRIVER_CAPABILITIES=all
+
+x-cpu-config:
+  &cpu-config
+  environment:
+    - DISPLAY=${DISPLAY:?err}
+    - LIBGL_ALWAYS_SOFTWARE=1
+
+services:
+  rosbot_xl:
+    image: husarion/rosbot-xl-gazebo:humble-0.8.2-20230913-stable
+    <<: *gpu-config
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /dev:/dev
+    command: ros2 launch rosbot_xl_gazebo simulation.launch.py mecanum:=True
+
+  joy2twist:
+    image: husarion/joy2twist:humble-1.0.0-20230424-stable
+    devices:
+      - /dev/input/js0
+    volumes:
+      - ../joy2twist/config/joy2twist.yaml:/joy2twist.yaml
+    command: ros2 launch joy2twist gamepad_controller.launch.py
+        joy2twist_params_file:=/joy2twist.yaml

@@ -1,0 +1,21 @@
+services:
+
+  rosbot:
+    image: husarion/rosbot:humble-ros2-add-namespaces
+    network_mode: bridge                  # using docker0 network interface
+    command: ros2 launch rosbot_bringup bringup.launch.py namespace:=${ROS_NAMESPACE}
+
+  microros:
+    image: husarion/micro-ros-agent:humble-3.1.3-20231122
+    network_mode: bridge                  # using docker0 network interface
+    devices:
+      - ${SERIAL_PORT:?err}
+    command: ros2 run micro_ros_agent micro_ros_agent serial -D $SERIAL_PORT serial -b 576000 # -v6
+
+  ros2router:
+    image: husarnet/ros2router:1.3.0
+    network_mode: host
+    volumes:
+      - ./ros2router_config.yaml:/var/tmp/DDS_ROUTER_CONFIGURATION.yaml
+    environment:
+      - AUTO_CONFIG=FALSE
