@@ -116,6 +116,8 @@ docker compose -f compose.rosbot2r.yaml up
 > ```
 > 
 > Note that nly the single `/robot1/cmd_vel` topic is available outside the robot thanks to the configuration from the `ros2router_config.yaml` file.
+>
+> To control the robot by using the teleop, just run: `ros2 run teleop_twist_keyboard teleop_twist_keyboard __ns:=/robot1`
 
 To run the `joy2twist` container execute the following command on your PC in the `joy2twist/demo/multiple_robots` directory:
 
