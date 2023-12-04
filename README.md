@@ -36,7 +36,7 @@ By default, linear `X` and `Y` are held by the left stick. Angular `Z` is contro
 |  `B`   |   Trigger E-stop    |
 |  `LT`  | Enable E-stop reset |
 
-> **NOTE**: Handle of robot's emegency stop is available only when `~e_stop/present` parameter is set true. This funcionality will work with any robot configured as follow:
+> **NOTE**: Handle of robot's emergency stop is available only when `~e_stop/present` parameter is set true. This functionality will work with any robot configured as follows:
 > - publishes robot's E-stop state uisng ROS topic of type `std_msgs/Bool`.
 > - allows resetting robot's E-stop using ROS service of type `std_srvs/Trigger`.
 > - allows triggering robot's E-stop using ROS service of type `std_srvs/Trigger`.
