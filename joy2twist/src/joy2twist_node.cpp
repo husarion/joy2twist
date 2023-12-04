@@ -40,7 +40,6 @@ void Joy2TwistNode::declare_parameters()
   this->declare_parameter<std::string>("e_stop.reset_srv", "e_stop_reset");
   this->declare_parameter<std::string>("e_stop.trigger_srv", "e_stop_trigger");
 
-  // why axis mapping has different default values than for ros1
   this->declare_parameter<int>("button_index_map.axis.angular_z", 2);
   this->declare_parameter<int>("button_index_map.axis.linear_x", 1);
   this->declare_parameter<int>("button_index_map.axis.linear_y", 0);
