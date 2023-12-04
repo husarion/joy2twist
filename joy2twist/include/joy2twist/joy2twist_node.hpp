@@ -49,7 +49,8 @@ private:
   std::pair<float, float> determine_velocity_factor(const std::shared_ptr<MsgJoy> joy_msg);
   void call_trigger_service(const rclcpp::Client<SrvTrigger>::SharedPtr & client);
   void trigger_service_cb(
-    const rclcpp::Client<SrvTrigger>::SharedFuture & future, const std::string & service_name);
+    const rclcpp::Client<SrvTrigger>::SharedFuture & future,
+    const std::string & service_name) const;
 
   std::map<std::string, float> linear_velocity_factors_;
   std::map<std::string, float> angular_velocity_factors_;
