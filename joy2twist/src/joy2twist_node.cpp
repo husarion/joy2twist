@@ -85,7 +85,7 @@ void Joy2TwistNode::joy_cb(const MsgJoy::SharedPtr joy_msg)
 
   if (e_stop_present_) {
     if (joy_msg->buttons.at(button_index_.e_stop_trigger) && !e_stop_state_) {
-      twist_pub_->publish(twist_msg);
+      twist_pub_->publish(twist_msg); // stop the robot before trying to call e-stop trigger service 
       call_trigger_service(e_stop_trigger_client_);
     } else if (
       joy_msg->buttons.at(button_index_.enable_e_stop_reset) &&

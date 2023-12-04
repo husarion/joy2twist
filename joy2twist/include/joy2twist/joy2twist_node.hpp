@@ -47,7 +47,7 @@ private:
   void joy_cb(const std::shared_ptr<MsgJoy> joy_msg);
   void convert_joy_to_twist(const std::shared_ptr<MsgJoy> joy_msg, MsgTwist & twist_msg);
   std::pair<float, float> determine_velocity_factor(const std::shared_ptr<MsgJoy> joy_msg);
-  void call_trigger_service(const rclcpp::Client<SrvTrigger>::SharedPtr & client);
+  void call_trigger_service(const rclcpp::Client<SrvTrigger>::SharedPtr & client) const;
   void trigger_service_cb(
     const rclcpp::Client<SrvTrigger>::SharedFuture & future,
     const std::string & service_name) const;
