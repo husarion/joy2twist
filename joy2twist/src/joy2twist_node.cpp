@@ -145,7 +145,7 @@ void Joy2TwistNode::call_trigger_service(const rclcpp::Client<SrvTrigger>::Share
 }
 
 void Joy2TwistNode::trigger_service_cb(
-  const rclcpp::Client<SrvTrigger>::SharedFuture & future, const std::string & service_name)
+  const rclcpp::Client<SrvTrigger>::SharedFuture & future, const std::string & service_name) const
 {
   if (!future.get()->success) {
     RCLCPP_ERROR(
