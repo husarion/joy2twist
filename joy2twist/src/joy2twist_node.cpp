@@ -137,7 +137,7 @@ void Joy2TwistNode::call_trigger_service(const rclcpp::Client<SrvTrigger>::Share
     return;
   }
 
-  auto request = std::make_shared<SrvTrigger::Request>();
+  const auto request = std::make_shared<SrvTrigger::Request>();
 
   client->async_send_request(request, [&](const rclcpp::Client<SrvTrigger>::SharedFuture future) {
     trigger_service_cb(future, client->get_service_name());
