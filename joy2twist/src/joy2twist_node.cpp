@@ -130,7 +130,7 @@ std::pair<float, float> Joy2TwistNode::determine_velocity_factor(const MsgJoy::S
   return std::make_pair(linear_velocity_factor, angular_velocity_factor);
 }
 
-void Joy2TwistNode::call_trigger_service(const rclcpp::Client<SrvTrigger>::SharedPtr & client)
+void Joy2TwistNode::call_trigger_service(const rclcpp::Client<SrvTrigger>::SharedPtr & client) const
 {
   if (!client->wait_for_service(std::chrono::milliseconds(2000))) {
     RCLCPP_ERROR(this->get_logger(), "Can't contact %s service", client->get_service_name());
