@@ -17,16 +17,32 @@ See `ls /dev/input | grep js` and find your joy number. If it differs, apply cha
 
 ## Button mapping
 
-|  Button  |      Function      |
-|:--------:|:------------------:|
-|   `LB`   |   enable driving   |
-|   `RB`   | slow driving mode  |
-|   `RT`   |  fast driving mode |
+| Button |     Function      |
+| :----: | :---------------: |
+|  `LB`  |  enable driving   |
+|  `RB`  | slow driving mode |
+|  `RT`  | fast driving mode |
 
 If neither `RB` nor `RT` is pressed, the robot operates in *regular* driving mode.
 
 To drive robot use sticks.
 By default, linear `X` and `Y` are held by the left stick. Angular `Z` is controlled with the right stick.
+
+### Emergency stop
+
+| Button |      Function       |
+| :----: | :-----------------: |
+|  `A`   |    Reset E-stop     |
+|  `B`   |   Trigger E-stop    |
+|  `LT`  | Enable E-stop reset |
+
+> [!NOTE] 
+> Handle of robot's emergency stop is available only when `~e_stop/present` parameter is set true. This functionality will work with any robot configured as follows:
+> - publishes robot's E-stop state uisng ROS topic of type `std_msgs/Bool`.
+> - allows resetting robot's E-stop using ROS service of type `std_srvs/Trigger`.
+> - allows triggering robot's E-stop using ROS service of type `std_srvs/Trigger`.
+> 
+> Topic and services names can be configured using ROS parameters, see [Parameters](#parameters) for more info.
 
 ---
 ## ROS node API
@@ -56,14 +72,21 @@ The robot can be operated at 3 scales of speed depending on pressed buttons. It'
 - `regular` *(float, default: 0.5)*
 - `slow`    *(float, default: 0.2)*
 
+The node can be configured using parameters described below to work with robots equipped with an E-stop interface. An example configuration for a robot with an E-stop interface can be found in [panther config file](./joy2twist/config/joy2twist_panther.yaml).
+
+- `~e_stop/present`         *(bool, default: false)*
+- `~e_stop/topic`           *(string, default: e_stop)*
+- `~e_stop/reset_srv`       *(string, default: e_stop_reset)*
+- `~e_stop/trigger_srv`     *(string, default: e_stop_trigger)*
+
 ## Docker image
 
 [![Build/Publish Docker Image](https://github.com/husarion/joy2twist/actions/workflows/build-docker-image.yaml/badge.svg)](https://github.com/husarion/joy2twist/actions/workflows/build-docker-image.yaml)
 
-| ROS2 distro | Supported architectures |
-| - | - |
-| `galactic` | `linux/amd64`, `linux/arm64` |
-| `humble` | `linux/amd64`, `linux/arm64` |
+| ROS2 distro |   Supported architectures    |
+| :---------: | :--------------------------: |
+| `galactic`  | `linux/amd64`, `linux/arm64` |
+|  `humble`   | `linux/amd64`, `linux/arm64` |
 
 Available on [Docker Hub](https://hub.docker.com/r/husarion/joy2twist/tags)
 

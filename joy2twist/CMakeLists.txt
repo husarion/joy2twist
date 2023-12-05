@@ -17,6 +17,8 @@ find_package(ament_index_cpp REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
+find_package(std_msgs REQUIRED)
+find_package(std_srvs REQUIRED)
 find_package(joy_linux REQUIRED)
 include_directories(include)
 
@@ -32,6 +34,8 @@ ament_target_dependencies(joy2twist
   rclcpp
   geometry_msgs  
   sensor_msgs
+  std_msgs
+  std_srvs
   joy_linux
 )
 
