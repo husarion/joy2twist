@@ -18,7 +18,8 @@ Joy2TwistNode::Joy2TwistNode() : Node("joy2twist_node")
 
   if (e_stop_present_) {
     e_stop_sub_ = this->create_subscription<MsgBool>(
-      e_stop_topic_, rclcpp::SystemDefaultsQoS(), std::bind(&Joy2TwistNode::e_stop_cb, this, _1));
+      e_stop_topic_, rclcpp::QoS(rclcpp::KeepLast(1)).transient_local().reliable(),
+      std::bind(&Joy2TwistNode::e_stop_cb, this, _1));
     e_stop_reset_client_ = this->create_client<SrvTrigger>(e_stop_reset_srv_);
     e_stop_trigger_client_ = this->create_client<SrvTrigger>(e_stop_trigger_srv_);
   }
