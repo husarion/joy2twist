@@ -2,8 +2,8 @@
   ros__parameters:
     linear_velocity_factor:
       fast: 2.0
-      regular: 1.0
-      slow: 0.5
+      regular: 1.2
+      slow: 0.4
 
     angular_velocity_factor:
       fast: 1.88
