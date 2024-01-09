@@ -26,6 +26,7 @@ services:
     devices:
       - /dev/input/js0
     volumes:
-      - ../joy2twist/config/joy2twist.yaml:/joy2twist.yaml
-    command: ros2 launch joy2twist gamepad_controller.launch.py
+      - ./../../joy2twist/config/joy2twist.yaml:/joy2twist.yaml
+    command: >
+      ros2 launch joy2twist gamepad_controller.launch.py
         joy2twist_params_file:=/joy2twist.yaml

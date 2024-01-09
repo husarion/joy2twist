@@ -8,11 +8,8 @@ services:
     ipc: host
     devices:
       - /dev/input/js0
-    environment:
-      - ROS_IP=10.15.20.2
-      - ROS_MASTER_URI=http://10.15.20.2:11311
+    volumes:
+      - ./../../joy2twist/config/joy2twist_panther.yaml:/joy2twist_panther.yaml
     command: >
-      bash -c
-      "ros2 launch 
-      joy2twist gamepad_controller.launch.py
-      joy2twist_params_file:=$(ros2 pkg prefix joy2twist)/share/joy2twist/config/joy2twist_panther.yaml"
+      ros2 launch joy2twist gamepad_controller.launch.py
+        joy2twist_params_file:=/joy2twist_panther.yaml
