@@ -9,7 +9,7 @@ services:
     environment:
       - ROS_MASTER_URI=http://ros-master:11311
     volumes: 
-      - ../joy2twist/config/joy2twist.yaml:/joy2twist.yaml
+      - ./../../joy2twist/config/joy2twist.yaml:/joy2twist.yaml
     command: >
       ros2 launch
       joy2twist gamepad_controller.launch.py
