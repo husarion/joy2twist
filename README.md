@@ -105,7 +105,7 @@ docker compose -f compose.rosbotxl.yaml up
 
 ### Controlling ROSbot 2R with a Logitech F710 Gamepad
 
-Connect Logitech F710 dongle to the ROSbot XL and run (on ROSbot):
+Connect Logitech F710 dongle to the ROSbot 2R and run (on ROSbot):
 
 ```bash
 cd joy2twist/demo/single_robot
