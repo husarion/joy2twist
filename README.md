@@ -92,14 +92,14 @@ The node can be configured using parameters described below to work with robots 
 
 Available on [Docker Hub](https://hub.docker.com/r/husarion/joy2twist/tags)
 
-## Demo
+## F710 Demo
 
 ### Controlling ROSbot XL with a Logitech F710 Gamepad
 
 Connect Logitech F710 dongle to the ROSbot XL and run (on ROSbot):
 
 ```bash
-cd joy2twist/demo/single_robot
+cd joy2twist/demo-f710/single_robot
 docker compose -f compose.rosbotxl.yaml up
  ```
 
@@ -108,7 +108,7 @@ docker compose -f compose.rosbotxl.yaml up
 Connect Logitech F710 dongle to the ROSbot 2R and run (on ROSbot):
 
 ```bash
-cd joy2twist/demo/single_robot
+cd joy2twist/demo-f710/single_robot
 docker compose -f compose.rosbot2r.yaml up
  ```
 
@@ -132,7 +132,7 @@ Now SSH to your robot:
 ssh husarion@<YOUR_ROSBOT_IP>
 ```
 
-Go to the folder `/home/husarion/demo/multiple_robots`, and launch the container for ROSbot:
+Go to the folder `/home/husarion/demo-f710/multiple_robots`, and launch the container for ROSbot:
 
 ```bash
 docker compose -f compose.rosbot2r.yaml up
