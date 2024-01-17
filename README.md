@@ -17,6 +17,8 @@ See `ls /dev/input | grep js` and find your joy number. If it differs, apply cha
 
 ## Button mapping
 
+![Gamepad legend](.docs/gamepad-legend-panther.png)
+
 | Button |     Function      |
 | :----: | :---------------: |
 |  `LB`  |  enable driving   |
