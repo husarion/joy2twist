@@ -64,9 +64,9 @@ ROS node is translating `/joy` topic to `/cmd_vel` topic.
 
 Following parameters change joystick axes mapped to given robot axes of freedom. For more information about parameter values, refer to the joy package [wiki page](http://wiki.ros.org/joy#Logitech_Wireless_Gamepad_F710_.28DirectInput_Mode.29).
 
-- `~axis_linear_x`      *(int, default: 3)*
-- `~axis_linear_y`      *(int, default: 2)*
-- `~axis_angular_z`     *(int, default: 0)*
+- `~axis_linear_x`      *(int, default: 1)*
+- `~axis_linear_y`      *(int, default: 0)*
+- `~axis_angular_z`     *(int, default: 2)*
 
 The robot can be operated at 3 scales of speed depending on pressed buttons. It's possible to adjust velocity scaling factors using a [config file](./joy2twist/config/joy2twist.yaml). The Units are m/s for linear movement and rad/s for angular movement.
 
@@ -94,13 +94,22 @@ Available on [Docker Hub](https://hub.docker.com/r/husarion/joy2twist/tags)
 
 ## Demo
 
-### Controlling ROSbot 2 with a Logitech F710 gamepad
+### Controlling ROSbot XL with a Logitech F710 Gamepad
 
-Connect Logitech F710 dongle to the ROSbot 2 and run (on ROSbot):
+Connect Logitech F710 dongle to the ROSbot XL and run (on ROSbot):
 
 ```bash
 cd joy2twist/demo/single_robot
-docker compose -f compose.rosbot.melodic.yaml up
+docker compose -f compose.rosbotxl.yaml up
+ ```
+
+### Controlling ROSbot 2R with a Logitech F710 Gamepad
+
+Connect Logitech F710 dongle to the ROSbot XL and run (on ROSbot):
+
+```bash
+cd joy2twist/demo/single_robot
+docker compose -f compose.rosbot2r.yaml up
  ```
 
 ### Different namespace demo with a Logitech F710 gamepad
