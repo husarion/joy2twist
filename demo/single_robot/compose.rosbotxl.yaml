@@ -1,0 +1,20 @@
+services:
+  joy2twist:
+    image: husarion/joy2twist:humble
+    devices:
+      - /dev/input
+    volumes: 
+      - ./../../joy2twist/config/joy2twist.yaml:/joy2twist.yaml
+    command: > 
+      ros2 launch joy2twist gamepad_controller.launch.py
+        joy2twist_params_file:=/params.yaml
+
+  rosbot-xl:
+    image: husarion/rosbot-xl:humble-0.8.2-20230913
+    command: ros2 launch rosbot_xl_bringup bringup.launch.py mecanum:=${MECANUM:-True}
+
+  microros:
+    image: husarion/micro-ros-agent:humble
+    ports:
+      - 192.168.77.2:8888:8888/udp
+    command: ros2 run micro_ros_agent micro_ros_agent udp4 --port 8888
