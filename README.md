@@ -97,7 +97,7 @@ Available on [Docker Hub](https://hub.docker.com/r/husarion/joy2twist/tags)
 1. Clone this repo on your ROSbot:
 
     ```bash
-    git clone https://github.com/husarion/joy2twist.git
+    git clone -b ros1 https://github.com/husarion/joy2twist.git
     cd joy2twist/
     ```
 
