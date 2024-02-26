@@ -110,7 +110,16 @@ Available on [Docker Hub](https://hub.docker.com/r/husarion/joy2twist/tags)
     SERIAL_PORT=/dev/ttyAMA0 # ROSbot 2R
     ```
 
-3. Launch on ROSbot
+3. Flash the right firmware (ROS Noetic)
+
+    ```bash
+    docker stop rosbot ros-master || true && \
+    docker run --rm -it --privileged \
+    husarion/rosbot:noetic \
+    /flash-firmware.py /root/firmware_diff.bin
+    ```
+
+4. Launch on ROSbot
 
     Go to the `joy2twist/demo` folder and run:
     

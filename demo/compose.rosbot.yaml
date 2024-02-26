@@ -1,12 +1,12 @@
 services:
 
   ros-master:
-    image: ros:melodic-ros-core
+    image: ros:noetic-ros-core
     restart: unless-stopped
     command: stdbuf -o L roscore
 
   joy2twist:
-    image: husarion/joy2twist:melodic
+    image: husarion/joy2twist:noetic
     restart: unless-stopped
     tty: true
     devices:
@@ -21,7 +21,7 @@ services:
       joy2twist_params_file:=/joy2twist.yaml
 
   rosbot:
-    image: husarion/rosbot:melodic
+    image: husarion/rosbot:noetic
     restart: unless-stopped
     tty: true
     devices:
