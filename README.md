@@ -96,21 +96,40 @@ Available on [Docker Hub](https://hub.docker.com/r/husarion/joy2twist/tags)
 
 ### Controlling ROSbot XL with a Logitech F710 Gamepad
 
-Connect Logitech F710 dongle to the ROSbot XL and run (on ROSbot):
+1. Flash the right firmware:
+
+```bash
+docker stop rosbot-xl microros || true && \
+docker run --rm -it --privileged \
+--mount type=bind,source=/dev/ttyUSBDB,target=/dev/ttyUSBDB \
+husarion/rosbot-xl:humble-0.8.2-20230913 \
+flash-firmware.py -p /dev/ttyUSBDB
+```
+
+2. Connect Logitech F710 dongle to the ROSbot XL and run (on ROSbot):
 
 ```bash
 cd joy2twist/demo/single_robot
 docker compose -f compose.rosbotxl.yaml up
- ```
+```
 
 ### Controlling ROSbot 2R with a Logitech F710 Gamepad
 
-Connect Logitech F710 dongle to the ROSbot 2R and run (on ROSbot):
+1. Flash the right firmware:
+
+```bash
+docker stop rosbot microros || true && docker run \
+--rm -it --privileged \
+husarion/rosbot:humble-0.6.1-20230712 \
+flash-firmware.py /root/firmware.bin
+```
+
+2. Connect Logitech F710 dongle to the ROSbot 2R and run (on ROSbot):
 
 ```bash
 cd joy2twist/demo/single_robot
 docker compose -f compose.rosbot2r.yaml up
- ```
+```
 
 ### Different namespace demo with a Logitech F710 gamepad
 
