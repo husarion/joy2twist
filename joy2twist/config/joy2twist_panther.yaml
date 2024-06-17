@@ -12,9 +12,9 @@
 
     e_stop:
       present: true
-      topic: /panther/hardware/e_stop
-      reset_srv: /panther/hardware/e_stop_reset
-      trigger_srv: /panther/hardware/e_stop_trigger
+      topic: hardware/e_stop
+      reset_srv: hardware/e_stop_reset
+      trigger_srv: hardware/e_stop_trigger
 
     # This button mapping should be adjusted to the specific controller
     # The following map is suited for Logitech F710
