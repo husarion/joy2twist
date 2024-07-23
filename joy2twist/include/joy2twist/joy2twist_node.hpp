@@ -8,6 +8,7 @@
 #include <rclcpp/rclcpp.hpp>
 
 #include <geometry_msgs/msg/twist.hpp>
+#include <geometry_msgs/msg/twist_stamped.hpp>
 #include <sensor_msgs/msg/joy.hpp>
 #include <std_msgs/msg/bool.hpp>
 #include <std_srvs/srv/trigger.hpp>
@@ -16,6 +17,7 @@ namespace joy2twist
 {
 using MsgJoy = sensor_msgs::msg::Joy;
 using MsgTwist = geometry_msgs::msg::Twist;
+using MsgTwistStamped = geometry_msgs::msg::TwistStamped;
 using MsgBool = std_msgs::msg::Bool;
 using SrvTrigger = std_srvs::srv::Trigger;
 
@@ -51,11 +53,13 @@ private:
   void trigger_service_cb(
     const rclcpp::Client<SrvTrigger>::SharedFuture & future,
     const std::string & service_name) const;
+  void publish_twist(const MsgTwist & twist_msg);
 
   std::map<std::string, float> linear_velocity_factors_;
   std::map<std::string, float> angular_velocity_factors_;
 
   ButtonIndex button_index_;
+  bool use_stamped_cmd_vel_;
   bool driving_mode_;
   bool e_stop_present_;
   bool e_stop_state_;
@@ -66,6 +70,7 @@ private:
   rclcpp::Subscription<MsgBool>::SharedPtr e_stop_sub_;
   rclcpp::Subscription<MsgJoy>::SharedPtr joy_sub_;
   rclcpp::Publisher<MsgTwist>::SharedPtr twist_pub_;
+  rclcpp::Publisher<MsgTwistStamped>::SharedPtr twist_stamped_pub_;
   rclcpp::Client<SrvTrigger>::SharedPtr e_stop_reset_client_;
   rclcpp::Client<SrvTrigger>::SharedPtr e_stop_trigger_client_;
 };

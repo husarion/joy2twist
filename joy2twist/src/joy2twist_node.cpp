@@ -13,8 +13,14 @@ Joy2TwistNode::Joy2TwistNode() : Node("joy2twist_node")
 
   joy_sub_ = create_subscription<MsgJoy>(
     "joy", rclcpp::SensorDataQoS(), std::bind(&Joy2TwistNode::joy_cb, this, _1));
-  twist_pub_ = create_publisher<MsgTwist>(
-    "cmd_vel", rclcpp::QoS(rclcpp::KeepLast(1)).durability_volatile().reliable());
+
+  if(use_stamped_cmd_vel_){
+    twist_stamped_pub_ = create_publisher<MsgTwistStamped>(
+      "cmd_vel", rclcpp::QoS(rclcpp::KeepLast(1)).durability_volatile().reliable());
+  } else {
+    twist_pub_ = create_publisher<MsgTwist>(
+      "cmd_vel", rclcpp::QoS(rclcpp::KeepLast(1)).durability_volatile().reliable());
+  }
 
   if (e_stop_present_) {
     e_stop_sub_ = this->create_subscription<MsgBool>(
@@ -29,6 +35,8 @@ Joy2TwistNode::Joy2TwistNode() : Node("joy2twist_node")
 
 void Joy2TwistNode::declare_parameters()
 {
+  this->declare_parameter<bool>("cmd_vel.use_stamped", false);
+
   this->declare_parameter<float>("linear_velocity_factor.fast", 1.0);
   this->declare_parameter<float>("linear_velocity_factor.regular", 0.5);
   this->declare_parameter<float>("linear_velocity_factor.slow", 0.2);
@@ -54,6 +62,8 @@ void Joy2TwistNode::declare_parameters()
 
 void Joy2TwistNode::load_parameters()
 {
+  this->get_parameter<bool>("cmd_vel.use_stamped", use_stamped_cmd_vel_);
+
   this->get_parameter<float>("linear_velocity_factor.fast", linear_velocity_factors_[FAST]);
   this->get_parameter<float>("linear_velocity_factor.regular", linear_velocity_factors_[REGULAR]);
   this->get_parameter<float>("linear_velocity_factor.slow", linear_velocity_factors_[SLOW]);
@@ -73,7 +83,7 @@ void Joy2TwistNode::load_parameters()
   this->get_parameter<int>("button_index_map.fast_mode", button_index_.fast_mode);
   this->get_parameter<int>("button_index_map.slow_mode", button_index_.slow_mode);
   this->get_parameter<int>("button_index_map.e_stop_reset", button_index_.e_stop_reset);
-  this->get_parameter<int>("button_index_map.e_stop_trigger", button_index_.e_stop_trigger);
+  this->get_parameter<int>("button_index_map.e_suse_stamped_cmd_vel_top_trigger", button_index_.e_stop_trigger);
   this->get_parameter<int>(
     "button_index_map.enable_e_stop_reset", button_index_.enable_e_stop_reset);
 }
@@ -87,7 +97,7 @@ void Joy2TwistNode::joy_cb(const MsgJoy::SharedPtr joy_msg)
   if (e_stop_present_) {
     if (joy_msg->buttons.at(button_index_.e_stop_trigger) && !e_stop_state_) {
       // Stop the robot before trying to call the e-stop trigger service
-      twist_pub_->publish(twist_msg);
+      publish_twist(twist_msg);
       call_trigger_service(e_stop_trigger_client_);
     } else if (
       joy_msg->buttons.at(button_index_.enable_e_stop_reset) &&
@@ -99,10 +109,10 @@ void Joy2TwistNode::joy_cb(const MsgJoy::SharedPtr joy_msg)
   if (joy_msg->buttons.at(button_index_.dead_man_switch)) {
     driving_mode_ = true;
     convert_joy_to_twist(joy_msg, twist_msg);
-    twist_pub_->publish(twist_msg);
+    publish_twist(twist_msg);
   } else if (driving_mode_) {
     driving_mode_ = false;
-    twist_pub_->publish(twist_msg);
+    publish_twist(twist_msg);
   }
 }
 
@@ -157,6 +167,17 @@ void Joy2TwistNode::trigger_service_cb(
   }
 
   RCLCPP_INFO(this->get_logger(), "Successfully called %s service", service_name.c_str());
+}
+
+void Joy2TwistNode::publish_twist(const MsgTwist & twist_msg){
+  if(use_stamped_cmd_vel_){
+    MsgTwistStamped twist_stamped_msg;
+    twist_stamped_msg.header.stamp = this->get_clock()->now();
+    twist_stamped_msg.twist = twist_msg;
+    twist_stamped_pub_->publish(twist_stamped_msg);
+  } else {
+    twist_pub_->publish(twist_msg);
+  }
 }
 
 }  // namespace joy2twist
