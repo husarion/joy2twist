@@ -84,17 +84,7 @@ void Joy2TwistNode::joy_cb(const MsgJoy::SharedPtr joy_msg)
 {
   MsgTwist twist_msg;
 
-  if (e_stop_present_) {
-    if (joy_msg->buttons.at(button_index_.e_stop_trigger) && !e_stop_state_) {
-      // Stop the robot before trying to call the e-stop trigger service
-      twist_pub_->publish(twist_msg);
-      call_trigger_service(e_stop_trigger_client_);
-    } else if (
-      joy_msg->buttons.at(button_index_.enable_e_stop_reset) &&
-      joy_msg->buttons.at(button_index_.e_stop_reset) && e_stop_state_) {
-      call_trigger_service(e_stop_reset_client_);
-    }
-  }
+  handle_e_stop(joy_msg);
 
   if (joy_msg->buttons.at(button_index_.dead_man_switch)) {
     driving_mode_ = true;
@@ -157,6 +147,28 @@ void Joy2TwistNode::trigger_service_cb(
   }
 
   RCLCPP_INFO(this->get_logger(), "Successfully called %s service", service_name.c_str());
+}
+
+void Joy2TwistNode::handle_e_stop(const std::shared_ptr<MsgJoy> joy_msg)
+{
+  if (!e_stop_present_) {
+    return;
+  }
+
+  if (joy_msg->buttons.at(button_index_.e_stop_trigger)) {
+    if (!e_stop_state_) {
+      // Stop the robot before trying to call the e-stop trigger service
+      twist_pub_->publish(MsgTwist());
+      call_trigger_service(e_stop_trigger_client_);
+    }
+    return;
+  }
+
+  if (
+    joy_msg->buttons.at(button_index_.enable_e_stop_reset) &&
+    joy_msg->buttons.at(button_index_.e_stop_reset) && e_stop_state_) {
+    call_trigger_service(e_stop_reset_client_);
+  }
 }
 
 }  // namespace joy2twist

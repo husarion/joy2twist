@@ -51,6 +51,7 @@ private:
   void trigger_service_cb(
     const rclcpp::Client<SrvTrigger>::SharedFuture & future,
     const std::string & service_name) const;
+  void handle_e_stop(const std::shared_ptr<MsgJoy> joy_msg);
 
   std::map<std::string, float> linear_velocity_factors_;
   std::map<std::string, float> angular_velocity_factors_;
