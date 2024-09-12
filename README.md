@@ -51,15 +51,15 @@ By default, linear `X` and `Y` are held by the left stick. Angular `Z` is contro
 
 ## ROS node API
 
-ROS node is translating `/joy` topic to `/cmd_vel` topic.
+ROS node is translating `joy` topic to `cmd_vel` topic.
 
 ### Publish
 
-- `/cmd_vel` *(geometry_msgs/Twist)*
+- `cmd_vel` *(geometry_msgs/Twist)*
 
 ### Subscribe
 
-- `/joy` *(sensor_msgs/Joy)*
+- `joy` *(sensor_msgs/Joy)*
 
 ### Parameters
 
