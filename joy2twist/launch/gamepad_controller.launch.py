@@ -27,7 +27,11 @@ def generate_launch_description():
 
     joy2twist_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource(
-            [PathJoinSubstitution([FindPackageShare("joy2twist"), "launch", "joy2twist.launch.py"])]
+            [
+                PathJoinSubstitution(
+                    [FindPackageShare("joy2twist"), "launch", "joy2twist.launch.py"]
+                )
+            ]
         ),
         launch_arguments={
             "joy2twist_params_file": LaunchConfiguration("joy2twist_params_file"),
@@ -44,6 +48,11 @@ def generate_launch_description():
         remappings=[("/diagnostics", "diagnostics")],
     )
 
-    actions = [declare_namespace_arg, joy2twist_params_file_argument, joy2twist_launch, joy_linux_node]
+    actions = [
+        declare_namespace_arg,
+        joy2twist_params_file_argument,
+        joy2twist_launch,
+        joy_linux_node,
+    ]
 
     return LaunchDescription(actions)
