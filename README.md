@@ -9,7 +9,7 @@ Connect joy via nano USB receiver and make sure it is in **DirectInput Mode** (s
 To test if joy works, use `jstest /dev/input/js0`.
 If the output is:
 
-```
+```bash
 jstest: No such file or directory
 ```
 
@@ -38,19 +38,20 @@ By default, linear `X` and `Y` are held by the left stick. Angular `Z` is contro
 |  `B`   |   Trigger E-stop    |
 |  `LT`  | Enable E-stop reset |
 
-> [!NOTE] 
+> [!NOTE]
 > Handle of robot's emergency stop is available only when `~e_stop/present` parameter is set true. This functionality will work with any robot configured as follows:
+>
 > - publishes robot's E-stop state uisng ROS topic of type `std_msgs/Bool`.
 > - allows resetting robot's E-stop using ROS service of type `std_srvs/Trigger`.
 > - allows triggering robot's E-stop using ROS service of type `std_srvs/Trigger`.
-> 
+>
 > Topic and services names can be configured using ROS parameters, see [Parameters](#parameters) for more info.
 
 ---
+
 ## ROS node API
 
 ROS node is translating `/joy` topic to `/cmd_vel` topic.
-
 
 ### Publish
 
@@ -98,38 +99,38 @@ Available on [Docker Hub](https://hub.docker.com/r/husarion/joy2twist/tags)
 
 1. Flash the right firmware:
 
-```bash
-docker stop rosbot-xl microros || true && \
-docker run --rm -it --privileged \
---mount type=bind,source=/dev/ttyUSBDB,target=/dev/ttyUSBDB \
-husarion/rosbot-xl:humble-0.8.2-20230913 \
-flash-firmware.py -p /dev/ttyUSBDB
-```
+    ```bash
+    docker stop rosbot-xl microros || true && \
+    docker run --rm -it --privileged \
+    --mount type=bind,source=/dev/ttyUSBDB,target=/dev/ttyUSBDB \
+    husarion/rosbot-xl:humble-0.8.2-20230913 \
+    flash-firmware.py -p /dev/ttyUSBDB
+    ```
 
-2. Connect Logitech F710 dongle to the ROSbot XL and run (on ROSbot):
+1. Connect Logitech F710 dongle to the ROSbot XL and run (on ROSbot):
 
-```bash
-cd joy2twist/demo/single_robot
-docker compose -f compose.rosbotxl.yaml up
-```
+    ```bash
+    cd joy2twist/demo/single_robot
+    docker compose -f compose.rosbotxl.yaml up
+    ```
 
 ### Controlling ROSbot 2R with a Logitech F710 Gamepad
 
 1. Flash the right firmware:
 
-```bash
-docker stop rosbot microros || true && docker run \
---rm -it --privileged \
-husarion/rosbot:humble-0.6.1-20230712 \
-flash-firmware.py /root/firmware.bin
-```
+    ```bash
+    docker stop rosbot microros || true && docker run \
+    --rm -it --privileged \
+    husarion/rosbot:humble-0.6.1-20230712 \
+    flash-firmware.py /root/firmware.bin
+    ```
 
-2. Connect Logitech F710 dongle to the ROSbot 2R and run (on ROSbot):
+1. Connect Logitech F710 dongle to the ROSbot 2R and run (on ROSbot):
 
-```bash
-cd joy2twist/demo/single_robot
-docker compose -f compose.rosbot2r.yaml up
-```
+    ```bash
+    cd joy2twist/demo/single_robot
+    docker compose -f compose.rosbot2r.yaml up
+    ```
 
 ### Different namespace demo with a Logitech F710 gamepad
 
@@ -160,20 +161,20 @@ docker compose -f compose.rosbot2r.yaml up
 > **Topic filtering**
 >
 > If you will then check on the PC the available ROS 2 nodes you will get:
-> 
+>
 > ```bash
 > $ ros2 topic list
 > /parameter_events
 > /robot1/cmd_vel
 > /rosout
 > ```
-> 
+>
 > Note that nly the single `/robot1/cmd_vel` topic is available outside the robot thanks to the configuration from the `ros2router_config.yaml` file.
 >
 > To control the robot by using the teleop, just run: `ros2 run teleop_twist_keyboard teleop_twist_keyboard __ns:=/robot1`
 
 To run the `joy2twist` container execute the following command on your PC in the `joy2twist/demo/multiple_robots` directory:
 
-```
+```bash
 docker compose -f compose.pc.yaml up
 ```
