@@ -30,7 +30,7 @@ def generate_launch_description():
         parameters=[LaunchConfiguration("joy2twist_params_file")],
         # output={"stdout": "screen", "stderr": "screen"},
         emulate_tty="true",
-        namespace=namespace
+        namespace=namespace,
     )
 
     actions = [declare_namespace_arg, joy2twist_params_file_argument, joy2twist_node]
