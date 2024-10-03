@@ -3,15 +3,15 @@ from launch_ros.substitutions import FindPackageShare
 
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
-from launch.substitutions import LaunchConfiguration, PathJoinSubstitution
+from launch.substitutions import EnvironmentVariable, LaunchConfiguration, PathJoinSubstitution
 
 
 def generate_launch_description():
     namespace = LaunchConfiguration("namespace")
     declare_namespace_arg = DeclareLaunchArgument(
         "namespace",
-        default_value="",
-        description="Namespace for all topics and tfs",
+        default_value=EnvironmentVariable("ROBOT_NAMESPACE", default_value=""),
+        description="Add namespace to all launched nodes.",
     )
 
     joy2twist_cfg_path = PathJoinSubstitution(
