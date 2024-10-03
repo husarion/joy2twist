@@ -75,7 +75,7 @@ The robot can be operated at 3 scales of speed depending on pressed buttons. It'
 - `regular` *(float, default: 0.5)*
 - `slow`    *(float, default: 0.2)*
 
-The node can be configured using parameters described below to work with robots equipped with an E-stop interface. An example configuration for a robot with an E-stop interface can be found in [panther config file](./joy2twist/config/joy2twist_panther.yaml).
+The node can be configured using parameters described below to work with robots equipped with an E-stop interface. An example configuration for a robot with an E-stop interface can be found in [panther config file](./joy2twist/config/joy2twist_ugv.yaml).
 
 - `~e_stop/present`         *(bool, default: false)*
 - `~e_stop/topic`           *(string, default: e_stop)*
