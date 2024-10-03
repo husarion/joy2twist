@@ -9,7 +9,7 @@ services:
     devices:
       - /dev/input/js0
     volumes:
-      - ./../../joy2twist/config/joy2twist_panther.yaml:/joy2twist_panther.yaml
+      - ./../../joy2twist/config/joy2twist_ugv.yaml:/joy2twist_ugv.yaml
     command: >
       ros2 launch joy2twist gamepad_controller.launch.py
-        joy2twist_params_file:=/joy2twist_panther.yaml
+        joy2twist_params_file:=/joy2twist_ugv.yaml
