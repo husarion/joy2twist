@@ -108,11 +108,11 @@ For reference, see the [default config file](./joy2twist/config/joy2twist.yaml) 
 
 ## Docker image
 
-[![Build/Publish Docker Image](https://github.com/husarion/joy2twist/actions/workflows/build-docker-image.yaml/badge.svg)](https://github.com/husarion/joy2twist/actions/workflows/build-docker-image.yaml)
+[![Build/Publish Docker Image](https://github.com/husarion/joy2twist/actions/workflows/ros-docker-image.yaml/badge.svg)](https://github.com/husarion/joy2twist/actions/workflows/ros-docker-image.yaml)
 
 | ROS2 distro |   Supported architectures    |
 | :---------: | :--------------------------: |
-| `galactic`  | `linux/amd64`, `linux/arm64` |
+|  `iron`     | `linux/amd64`, `linux/arm64` |
 |  `humble`   | `linux/amd64`, `linux/arm64` |
 
 Available on [Docker Hub](https://hub.docker.com/r/husarion/joy2twist/tags)
