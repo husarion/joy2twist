@@ -41,15 +41,15 @@ void Joy2TwistNode::declare_parameters()
   this->declare_parameter<std::string>("e_stop.reset_srv", "e_stop_reset");
   this->declare_parameter<std::string>("e_stop.trigger_srv", "e_stop_trigger");
 
-  this->declare_parameter<int>("button_index_map.axis.angular_z", 2);
-  this->declare_parameter<int>("button_index_map.axis.linear_x", 1);
-  this->declare_parameter<int>("button_index_map.axis.linear_y", 0);
-  this->declare_parameter<int>("button_index_map.dead_man_switch", 4);
-  this->declare_parameter<int>("button_index_map.fast_mode", 7);
-  this->declare_parameter<int>("button_index_map.slow_mode", 5);
-  this->declare_parameter<int>("button_index_map.e_stop_reset", 1);
-  this->declare_parameter<int>("button_index_map.e_stop_trigger", 2);
-  this->declare_parameter<int>("button_index_map.enable_e_stop_reset", 6);
+  this->declare_parameter<std::string>("input_index_map.axis.angular_z", "A3");
+  this->declare_parameter<std::string>("input_index_map.axis.linear_x", "A1");
+  this->declare_parameter<std::string>("input_index_map.axis.linear_y", "A0");
+  this->declare_parameter<std::string>("input_index_map.dead_man_switch", "B4");
+  this->declare_parameter<std::string>("input_index_map.fast_mode", "!A5");
+  this->declare_parameter<std::string>("input_index_map.slow_mode", "B5");
+  this->declare_parameter<std::string>("input_index_map.e_stop_reset", "B0");
+  this->declare_parameter<std::string>("input_index_map.e_stop_trigger", "B1");
+  this->declare_parameter<std::string>("input_index_map.enable_e_stop_reset", "!A2");
 }
 
 void Joy2TwistNode::load_parameters()
@@ -66,16 +66,81 @@ void Joy2TwistNode::load_parameters()
   this->get_parameter<std::string>("e_stop.reset_srv", e_stop_reset_srv_);
   this->get_parameter<std::string>("e_stop.trigger_srv", e_stop_trigger_srv_);
 
-  this->get_parameter<int>("button_index_map.axis.angular_z", button_index_.angular_z);
-  this->get_parameter<int>("button_index_map.axis.linear_x", button_index_.linear_x);
-  this->get_parameter<int>("button_index_map.axis.linear_y", button_index_.linear_y);
-  this->get_parameter<int>("button_index_map.dead_man_switch", button_index_.dead_man_switch);
-  this->get_parameter<int>("button_index_map.fast_mode", button_index_.fast_mode);
-  this->get_parameter<int>("button_index_map.slow_mode", button_index_.slow_mode);
-  this->get_parameter<int>("button_index_map.e_stop_reset", button_index_.e_stop_reset);
-  this->get_parameter<int>("button_index_map.e_stop_trigger", button_index_.e_stop_trigger);
-  this->get_parameter<int>(
-    "button_index_map.enable_e_stop_reset", button_index_.enable_e_stop_reset);
+  RawInputIndex raw_input_index{};
+
+  this->get_parameter<std::string>("input_index_map.axis.angular_z", raw_input_index.angular_z);
+  this->get_parameter<std::string>("input_index_map.axis.linear_x", raw_input_index.linear_x);
+  this->get_parameter<std::string>("input_index_map.axis.linear_y", raw_input_index.linear_y);
+  this->get_parameter<std::string>(
+    "input_index_map.dead_man_switch", raw_input_index.dead_man_switch);
+  this->get_parameter<std::string>("input_index_map.fast_mode", raw_input_index.fast_mode);
+  this->get_parameter<std::string>("input_index_map.slow_mode", raw_input_index.slow_mode);
+  this->get_parameter<std::string>("input_index_map.e_stop_reset", raw_input_index.e_stop_reset);
+  this->get_parameter<std::string>(
+    "input_index_map.e_stop_trigger", raw_input_index.e_stop_trigger);
+  this->get_parameter<std::string>(
+    "input_index_map.enable_e_stop_reset", raw_input_index.enable_e_stop_reset);
+
+  parse_joy_inputs(raw_input_index);
+}
+
+void Joy2TwistNode::parse_joy_inputs(const RawInputIndex & raw_input_index)
+{
+  input_index_.angular_z = JoyInput::from_string(raw_input_index.angular_z);
+  input_index_.linear_x = JoyInput::from_string(raw_input_index.linear_x);
+  input_index_.linear_y = JoyInput::from_string(raw_input_index.linear_y);
+  input_index_.dead_man_switch = JoyInput::from_string(raw_input_index.dead_man_switch);
+  input_index_.fast_mode = JoyInput::from_string(raw_input_index.fast_mode);
+  input_index_.slow_mode = JoyInput::from_string(raw_input_index.slow_mode);
+  input_index_.e_stop_reset = JoyInput::from_string(raw_input_index.e_stop_reset);
+  input_index_.e_stop_trigger = JoyInput::from_string(raw_input_index.e_stop_trigger);
+  input_index_.enable_e_stop_reset = JoyInput::from_string(raw_input_index.enable_e_stop_reset);
+}
+
+float Joy2TwistNode::get_joy_input(
+  const MsgJoy::SharedPtr joy_msg, const JoyInput & joy_input) const
+{
+  float value = 0.0f;
+
+  if (joy_input.type == JoyInput::Type::AXIS) {
+    value = joy_msg->axes.at(joy_input.index);
+  } else if (joy_input.type == JoyInput::Type::BUTTON) {
+    value = static_cast<float>(joy_msg->buttons.at(joy_input.index));
+  } else {
+    throw std::invalid_argument("Invalid JoyInput type");
+  }
+
+  if (joy_input.is_inverted) {
+    value *= -1;
+  }
+
+  return value;
+}
+
+bool Joy2TwistNode::get_joy_input_as_btn(
+  const MsgJoy::SharedPtr joy_msg, const JoyInput & joy_input) const
+{
+  bool value = false;
+
+  if (joy_input.type == JoyInput::Type::AXIS) {
+    auto axis = joy_msg->axes.at(joy_input.index);
+
+    if (joy_input.is_inverted) {
+      value = axis < -AXIS_TO_BTN_DEADZONE ? 1 : 0;
+    } else {
+      value = axis > AXIS_TO_BTN_DEADZONE ? 1 : 0;
+    }
+  } else if (joy_input.type == JoyInput::Type::BUTTON) {
+    value = static_cast<bool>(joy_msg->buttons.at(joy_input.index));
+
+    if (joy_input.is_inverted) {
+      value = !value;
+    }
+  } else {
+    throw std::invalid_argument("Invalid JoyInput type");
+  }
+
+  return value;
 }
 
 void Joy2TwistNode::e_stop_cb(const MsgBool::SharedPtr bool_msg) { e_stop_state_ = bool_msg->data; }
@@ -86,7 +151,7 @@ void Joy2TwistNode::joy_cb(const MsgJoy::SharedPtr joy_msg)
 
   handle_e_stop(joy_msg);
 
-  if (joy_msg->buttons.at(button_index_.dead_man_switch)) {
+  if (get_joy_input_as_btn(joy_msg, input_index_.dead_man_switch)) {
     driving_mode_ = true;
     convert_joy_to_twist(joy_msg, twist_msg);
     twist_pub_->publish(twist_msg);
@@ -101,9 +166,9 @@ void Joy2TwistNode::convert_joy_to_twist(const MsgJoy::SharedPtr joy_msg, MsgTwi
   float linear_velocity_factor{}, angular_velocity_factor{};
   std::tie(linear_velocity_factor, angular_velocity_factor) = determine_velocity_factor(joy_msg);
 
-  twist_msg.angular.z = angular_velocity_factor * joy_msg->axes.at(button_index_.angular_z);
-  twist_msg.linear.x = linear_velocity_factor * joy_msg->axes.at(button_index_.linear_x);
-  twist_msg.linear.y = linear_velocity_factor * joy_msg->axes.at(button_index_.linear_y);
+  twist_msg.angular.z = angular_velocity_factor * get_joy_input(joy_msg, input_index_.angular_z);
+  twist_msg.linear.x = linear_velocity_factor * get_joy_input(joy_msg, input_index_.linear_x);
+  twist_msg.linear.y = linear_velocity_factor * get_joy_input(joy_msg, input_index_.linear_y);
 }
 
 std::pair<float, float> Joy2TwistNode::determine_velocity_factor(const MsgJoy::SharedPtr joy_msg)
@@ -111,11 +176,13 @@ std::pair<float, float> Joy2TwistNode::determine_velocity_factor(const MsgJoy::S
   float linear_velocity_factor = linear_velocity_factors_.at(REGULAR);
   float angular_velocity_factor = angular_velocity_factors_.at(REGULAR);
   if (
-    joy_msg->buttons.at(button_index_.slow_mode) && !joy_msg->buttons.at(button_index_.fast_mode)) {
+    get_joy_input_as_btn(joy_msg, input_index_.slow_mode) &&
+    !get_joy_input_as_btn(joy_msg, input_index_.fast_mode)) {
     linear_velocity_factor = linear_velocity_factors_.at(SLOW);
     angular_velocity_factor = angular_velocity_factors_.at(SLOW);
   } else if (
-    joy_msg->buttons.at(button_index_.fast_mode) && !joy_msg->buttons.at(button_index_.slow_mode)) {
+    get_joy_input_as_btn(joy_msg, input_index_.fast_mode) &&
+    !get_joy_input_as_btn(joy_msg, input_index_.slow_mode)) {
     linear_velocity_factor = linear_velocity_factors_.at(FAST);
     angular_velocity_factor = angular_velocity_factors_.at(FAST);
   }
@@ -155,7 +222,7 @@ void Joy2TwistNode::handle_e_stop(const std::shared_ptr<MsgJoy> joy_msg)
     return;
   }
 
-  if (joy_msg->buttons.at(button_index_.e_stop_trigger)) {
+  if (get_joy_input_as_btn(joy_msg, input_index_.e_stop_trigger)) {
     if (!e_stop_state_) {
       // Stop the robot before trying to call the e-stop trigger service
       twist_pub_->publish(MsgTwist());
@@ -165,8 +232,8 @@ void Joy2TwistNode::handle_e_stop(const std::shared_ptr<MsgJoy> joy_msg)
   }
 
   if (
-    joy_msg->buttons.at(button_index_.enable_e_stop_reset) &&
-    joy_msg->buttons.at(button_index_.e_stop_reset) && e_stop_state_) {
+    get_joy_input_as_btn(joy_msg, input_index_.enable_e_stop_reset) &&
+    get_joy_input_as_btn(joy_msg, input_index_.e_stop_reset) && e_stop_state_) {
     call_trigger_service(e_stop_reset_client_);
   }
 }
