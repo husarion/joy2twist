@@ -10,13 +10,16 @@
       regular: 0.5
       slow: 0.2
 
-    # This button mapping should be adjusted to the specific controller
-    # The following map is suited for Logitech F710
-    button_index_map:
+    # This button mapping should be common across all XInput controllers
+    # Input declaration consists of:
+    # - optional negation '!',
+    # - input type: 'A' for an axis or 'B' for a button,
+    # - axis/button number.
+    input_index_map:
       axis:
-        angular_z: 0 # Left joystick
-        linear_x: 3 # Right joystick
-        linear_y: 2 # Right joystick
-      dead_man_switch: 4 # LB
-      fast_mode: 7 # RT
-      slow_mode: 5 # RB
+        angular_z: 'A3' # Right joystick
+        linear_x: 'A1' # Left joystick
+        linear_y: 'A0' # Left joystick
+      dead_man_switch: 'B4' # LB
+      fast_mode: '!A5' # RT
+      slow_mode: 'B5' # RB
