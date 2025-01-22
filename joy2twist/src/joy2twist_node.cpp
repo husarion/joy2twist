@@ -41,15 +41,15 @@ void Joy2TwistNode::declare_parameters()
   this->declare_parameter<std::string>("e_stop.reset_srv", "e_stop_reset");
   this->declare_parameter<std::string>("e_stop.trigger_srv", "e_stop_trigger");
 
-  this->declare_parameter<std::string>("input_index_map.axis.angular_z", "A3");
+  this->declare_parameter<std::string>("input_index_map.axis.angular_z", "A2");
   this->declare_parameter<std::string>("input_index_map.axis.linear_x", "A1");
   this->declare_parameter<std::string>("input_index_map.axis.linear_y", "A0");
   this->declare_parameter<std::string>("input_index_map.dead_man_switch", "B4");
-  this->declare_parameter<std::string>("input_index_map.fast_mode", "!A5");
+  this->declare_parameter<std::string>("input_index_map.fast_mode", "B7");
   this->declare_parameter<std::string>("input_index_map.slow_mode", "B5");
-  this->declare_parameter<std::string>("input_index_map.e_stop_reset", "B0");
-  this->declare_parameter<std::string>("input_index_map.e_stop_trigger", "B1");
-  this->declare_parameter<std::string>("input_index_map.enable_e_stop_reset", "!A2");
+  this->declare_parameter<std::string>("input_index_map.e_stop_reset", "B1");
+  this->declare_parameter<std::string>("input_index_map.e_stop_trigger", "B2");
+  this->declare_parameter<std::string>("input_index_map.enable_e_stop_reset", "B6");
 }
 
 void Joy2TwistNode::load_parameters()

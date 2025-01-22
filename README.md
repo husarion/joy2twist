@@ -4,7 +4,7 @@ Dockerized ROS node allowing control of ROS-powered mobile robots with Logitech 
 
 ## Setup joy
 
-Connect joy via nano USB receiver and make sure it is in **XInput Mode** (switch in front of the pad with letters **D** and **X**, select **X**).
+Connect joy via nano USB receiver and make sure it is in **DirectInput Mode** (switch in front of the pad with letters **D** and **X**, select **D**).
 
 To test if joy works, use `jstest /dev/input/js0`.
 If the output is:
@@ -103,7 +103,7 @@ Mapping an axis as a button will result in the axis being treated as a binary bu
 
 Usage of triggers as buttons may require inverting the axis with a negation sign `!` to activate function after pressing the trigger as their values decrease from 1 to -1 during actuation.
 
-For reference, see the [default config file](./joy2twist/config/joy2twist.yaml) and the [Husarion UGV config file](./joy2twist/config/joy2twist_ugv.yaml).
+For reference, see the [default DirectInput config file](./joy2twist/config/joy2twist.yaml) and the [Husarion UGV (XInput) config file](./joy2twist/config/joy2twist_ugv.yaml).
 
 
 ## Docker image
