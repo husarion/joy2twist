@@ -16,7 +16,7 @@
     # - optional negation '!',
     # - input type: 'A' for an axis or 'B' for a button,
     # - axis/button number.
-    button_index_map:
+    input_index_map:
       axis:
         angular_z: "A2" # Right joystick
         linear_x: "A1" # Left joystick
