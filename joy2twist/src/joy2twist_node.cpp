@@ -100,47 +100,37 @@ void Joy2TwistNode::parse_joy_inputs(const RawInputIndex & raw_input_index)
 float Joy2TwistNode::get_joy_input(
   const MsgJoy::SharedPtr joy_msg, const JoyInput & joy_input) const
 {
-  float value = 0.0f;
+  float negation_factor = joy_input.is_inverted ? -1.0f : 1.0f;
 
   if (joy_input.type == JoyInput::Type::AXIS) {
-    value = joy_msg->axes.at(joy_input.index);
-  } else if (joy_input.type == JoyInput::Type::BUTTON) {
-    value = static_cast<float>(joy_msg->buttons.at(joy_input.index));
-  } else {
-    throw std::invalid_argument("Invalid JoyInput type");
+    return joy_msg->axes.at(joy_input.index) * negation_factor;
   }
-
-  if (joy_input.is_inverted) {
-    value *= -1;
+  
+  if (joy_input.type == JoyInput::Type::BUTTON) {
+    return static_cast<float>(joy_msg->buttons.at(joy_input.index)) * negation_factor;
   }
-
-  return value;
+  
+  throw std::invalid_argument("Invalid JoyInput type");
 }
 
 bool Joy2TwistNode::get_joy_input_as_btn(
   const MsgJoy::SharedPtr joy_msg, const JoyInput & joy_input) const
 {
-  bool value = false;
-
   if (joy_input.type == JoyInput::Type::AXIS) {
     auto axis = joy_msg->axes.at(joy_input.index);
 
     if (joy_input.is_inverted) {
-      value = axis < -AXIS_TO_BTN_DEADZONE ? 1 : 0;
-    } else {
-      value = axis > AXIS_TO_BTN_DEADZONE ? 1 : 0;
+      return axis < -AXIS_TO_BTN_DEADZONE ? 1 : 0;
     }
-  } else if (joy_input.type == JoyInput::Type::BUTTON) {
-    value = static_cast<bool>(joy_msg->buttons.at(joy_input.index));
-
-    if (joy_input.is_inverted) {
-      value = !value;
-    }
-  } else {
-    throw std::invalid_argument("Invalid JoyInput type");
+    return axis > AXIS_TO_BTN_DEADZONE ? 1 : 0;
+  } 
+  
+  if (joy_input.type == JoyInput::Type::BUTTON) {
+    auto value = static_cast<bool>(joy_msg->buttons.at(joy_input.index));
+    return joy_input.is_inverted ? !value : value;
   }
-
-  return value;
+    
+  throw std::invalid_argument("Invalid JoyInput type");
 }
 
 void Joy2TwistNode::e_stop_cb(const MsgBool::SharedPtr bool_msg) { e_stop_state_ = bool_msg->data; }

@@ -6,7 +6,7 @@ JoyInput JoyInput::from_string(const std::string & input)
 {
   JoyInput joy_input;
   if (input.length() < 2) {
-    throw std::invalid_argument("Invalid button input string " + input);
+    throw std::invalid_argument("Invalid joy input string: " + input);
   }
 
   auto it = input.begin();
@@ -27,14 +27,14 @@ JoyInput JoyInput::from_string(const std::string & input)
       break;
 
     default:
-      throw std::invalid_argument("Invalid button input string " + input);
+      throw std::invalid_argument("Invalid joy input string: " + input);
   }
 
   try {
     // take rest of the string from iterator and convert it to an integer
     joy_input.index = std::stoi(input.substr(it - input.begin()));
   } catch (const std::invalid_argument & e) {
-    throw std::invalid_argument("Invalid button input string " + input);
+    throw std::invalid_argument("Invalid joy input string: " + input);
   }
 
   return joy_input;

@@ -88,7 +88,7 @@ Buttons on the controller can be mapped to different functions by providing an [
 
 Each entry under `input_index_map` should have a string value with following consecutive fields:
 
-- optional input negation:  `!`,
+- optional input negation: `!`,
 - input type: `A` for an axis or `B` for a button,
 - axis/button number.
 
