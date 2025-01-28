@@ -11,18 +11,18 @@ JoyInput JoyInput::from_string(const std::string & input)
 
   auto it = input.begin();
 
-  if (*it == JoyInput::INVERTED_PREFIX) {
+  if (*it == JoyInput::kInvertedPrefix) {
     joy_input.is_inverted = true;
     ++it;
   }
 
   // Determine the type of input
   switch (*it++) {
-    case JoyInput::TYPE_AXIS:
+    case JoyInput::kTypeAxis:
       joy_input.type = JoyInput::Type::AXIS;
       break;
 
-    case JoyInput::TYPE_BUTTON:
+    case JoyInput::kTypeButton:
       joy_input.type = JoyInput::Type::BUTTON;
       break;
 

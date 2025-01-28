@@ -1,4 +1,5 @@
-#pragma once
+#ifndef JOY2TWIST_JOY_INPUT_HPP_
+#define JOY2TWIST_JOY_INPUT_HPP_
 
 #include <stdexcept>
 #include <string>
@@ -14,14 +15,16 @@ public:
     BUTTON,
   };
 
+  static constexpr char kTypeAxis = 'A';
+  static constexpr char kTypeButton = 'B';
+  static constexpr char kInvertedPrefix = '!';
+
   Type type = Type::AXIS;
   int index = -1;
   bool is_inverted = false;
 
-  static constexpr char TYPE_AXIS = 'A';
-  static constexpr char TYPE_BUTTON = 'B';
-  static constexpr char INVERTED_PREFIX = '!';
-
   static JoyInput from_string(const std::string & input);
 };
 }  // namespace joy2twist
+
+#endif  // JOY2TWIST_JOY_INPUT_HPP_

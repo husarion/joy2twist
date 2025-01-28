@@ -54,12 +54,13 @@ void Joy2TwistNode::declare_parameters()
 
 void Joy2TwistNode::load_parameters()
 {
-  this->get_parameter<float>("linear_velocity_factor.fast", linear_velocity_factors_[FAST]);
-  this->get_parameter<float>("linear_velocity_factor.regular", linear_velocity_factors_[REGULAR]);
-  this->get_parameter<float>("linear_velocity_factor.slow", linear_velocity_factors_[SLOW]);
-  this->get_parameter<float>("angular_velocity_factor.fast", angular_velocity_factors_[FAST]);
-  this->get_parameter<float>("angular_velocity_factor.regular", angular_velocity_factors_[REGULAR]);
-  this->get_parameter<float>("angular_velocity_factor.slow", angular_velocity_factors_[SLOW]);
+  this->get_parameter<float>("linear_velocity_factor.fast", linear_velocity_factors_[kFast]);
+  this->get_parameter<float>("linear_velocity_factor.regular", linear_velocity_factors_[kRegular]);
+  this->get_parameter<float>("linear_velocity_factor.slow", linear_velocity_factors_[kSlow]);
+  this->get_parameter<float>("angular_velocity_factor.fast", angular_velocity_factors_[kFast]);
+  this->get_parameter<float>(
+    "angular_velocity_factor.regular", angular_velocity_factors_[kRegular]);
+  this->get_parameter<float>("angular_velocity_factor.slow", angular_velocity_factors_[kSlow]);
 
   this->get_parameter<bool>("e_stop.present", e_stop_present_);
   this->get_parameter<std::string>("e_stop.topic", e_stop_topic_);
@@ -105,11 +106,11 @@ float Joy2TwistNode::get_joy_input(
   if (joy_input.type == JoyInput::Type::AXIS) {
     return joy_msg->axes.at(joy_input.index) * negation_factor;
   }
-  
+
   if (joy_input.type == JoyInput::Type::BUTTON) {
     return static_cast<float>(joy_msg->buttons.at(joy_input.index)) * negation_factor;
   }
-  
+
   throw std::invalid_argument("Invalid JoyInput type");
 }
 
@@ -120,16 +121,16 @@ bool Joy2TwistNode::get_joy_input_as_btn(
     auto axis = joy_msg->axes.at(joy_input.index);
 
     if (joy_input.is_inverted) {
-      return axis < -AXIS_TO_BTN_DEADZONE ? 1 : 0;
+      return axis < -kAxisToButtonDeadzone ? 1 : 0;
     }
-    return axis > AXIS_TO_BTN_DEADZONE ? 1 : 0;
-  } 
-  
+    return axis > kAxisToButtonDeadzone ? 1 : 0;
+  }
+
   if (joy_input.type == JoyInput::Type::BUTTON) {
     auto value = static_cast<bool>(joy_msg->buttons.at(joy_input.index));
     return joy_input.is_inverted ? !value : value;
   }
-    
+
   throw std::invalid_argument("Invalid JoyInput type");
 }
 
@@ -163,18 +164,18 @@ void Joy2TwistNode::convert_joy_to_twist(const MsgJoy::SharedPtr joy_msg, MsgTwi
 
 std::pair<float, float> Joy2TwistNode::determine_velocity_factor(const MsgJoy::SharedPtr joy_msg)
 {
-  float linear_velocity_factor = linear_velocity_factors_.at(REGULAR);
-  float angular_velocity_factor = angular_velocity_factors_.at(REGULAR);
+  float linear_velocity_factor = linear_velocity_factors_.at(kRegular);
+  float angular_velocity_factor = angular_velocity_factors_.at(kRegular);
   if (
     get_joy_input_as_btn(joy_msg, input_index_.slow_mode) &&
     !get_joy_input_as_btn(joy_msg, input_index_.fast_mode)) {
-    linear_velocity_factor = linear_velocity_factors_.at(SLOW);
-    angular_velocity_factor = angular_velocity_factors_.at(SLOW);
+    linear_velocity_factor = linear_velocity_factors_.at(kSlow);
+    angular_velocity_factor = angular_velocity_factors_.at(kSlow);
   } else if (
     get_joy_input_as_btn(joy_msg, input_index_.fast_mode) &&
     !get_joy_input_as_btn(joy_msg, input_index_.slow_mode)) {
-    linear_velocity_factor = linear_velocity_factors_.at(FAST);
-    angular_velocity_factor = angular_velocity_factors_.at(FAST);
+    linear_velocity_factor = linear_velocity_factors_.at(kFast);
+    angular_velocity_factor = angular_velocity_factors_.at(kFast);
   }
   return std::make_pair(linear_velocity_factor, angular_velocity_factor);
 }

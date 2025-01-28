@@ -96,11 +96,11 @@ private:
   rclcpp::Client<SrvTrigger>::SharedPtr e_stop_trigger_client_;
 };
 
-static constexpr char FAST[]{"fast"};
-static constexpr char REGULAR[]{"regular"};
-static constexpr char SLOW[]{"slow"};
+static constexpr char kFast[]{"fast"};
+static constexpr char kRegular[]{"regular"};
+static constexpr char kSlow[]{"slow"};
 
-static constexpr float AXIS_TO_BTN_DEADZONE = 0.05f;
+static constexpr float kAxisToButtonDeadzone = 0.75f;
 }  // namespace joy2twist
 
 #endif  // JOY2TWIST_JOY2TWIST_NODE_HPP_
