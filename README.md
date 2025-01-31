@@ -4,7 +4,7 @@ Dockerized ROS node allowing control of ROS-powered mobile robots with Logitech 
 
 ## Setup joy
 
-Connect joy via nano USB receiver and make sure it is in **DirectInput Mode** (switch in front o the pad with letters **D** and **X**, select **D**).
+Connect joy via nano USB receiver and make sure it is in **DirectInput Mode** (switch in front of the pad with letters **D** and **X**, select **D**).
 
 To test if joy works, use `jstest /dev/input/js0`.
 If the output is:
@@ -41,7 +41,7 @@ By default, linear `X` and `Y` are held by the left stick. Angular `Z` is contro
 > [!NOTE]
 > Handle of robot's emergency stop is available only when `~e_stop/present` parameter is set true. This functionality will work with any robot configured as follows:
 >
-> - publishes robot's E-stop state uisng ROS topic of type `std_msgs/Bool`.
+> - publishes robot's E-stop state using ROS topic of type `std_msgs/Bool`.
 > - allows resetting robot's E-stop using ROS service of type `std_srvs/Trigger`.
 > - allows triggering robot's E-stop using ROS service of type `std_srvs/Trigger`.
 >
@@ -63,11 +63,11 @@ ROS node is translating `joy` topic to `cmd_vel` topic.
 
 ### Parameters
 
-Following parameters change joystick axes mapped to given robot axes of freedom. For more information about parameter values, refer to the joy package [wiki page](http://wiki.ros.org/joy#Logitech_Wireless_Gamepad_F710_.28DirectInput_Mode.29).
+Following parameters change joystick axes mapped to given robot axes of freedom.
 
-- `~axis_linear_x`      *(int, default: 1)*
-- `~axis_linear_y`      *(int, default: 0)*
-- `~axis_angular_z`     *(int, default: 2)*
+- `~input_index_map.axis.linear_x`      *(string, default: "B1")*
+- `~input_index_map.axis.linear_y`      *(string, default: "B0")*
+- `~input_index_map.axis.angular_z`     *(string, default: "B3")*
 
 The robot can be operated at 3 scales of speed depending on pressed buttons. It's possible to adjust velocity scaling factors using a [config file](./joy2twist/config/joy2twist.yaml). The Units are m/s for linear movement and rad/s for angular movement.
 
@@ -82,13 +82,37 @@ The node can be configured using parameters described below to work with robots 
 - `~e_stop/reset_srv`       *(string, default: e_stop_reset)*
 - `~e_stop/trigger_srv`     *(string, default: e_stop_trigger)*
 
+#### Input mapping
+
+Buttons on the controller can be mapped to different functions by providing an [YAML config file](./joy2twist/config/joy2twist.yaml) with an `input_index_map` key.
+
+Each entry under `input_index_map` should have a string value with following consecutive fields:
+
+- optional input negation: `!`,
+- input type: `A` for an axis or `B` for a button,
+- axis/button number.
+
+```yaml
+fast_mode: '!A5' # RT
+slow_mode: 'B5' # RB
+```
+
+In the example above `slow_mode` button has been mapped to a button (`B`) with index `5` on the gamepad and `fast_mode` button has been mapped to an axis (`A`) with index `5`.
+
+Mapping an axis as a button will result in the axis being treated as a binary button with a small dead-zone threshold (0.05).
+
+Usage of triggers as buttons may require inverting the axis with a negation sign `!` to activate function after pressing the trigger as their values decrease from 1 to -1 during actuation.
+
+For reference, see the [default DirectInput config file](./joy2twist/config/joy2twist.yaml) and the [Husarion UGV (XInput) config file](./joy2twist/config/joy2twist_ugv.yaml).
+
+
 ## Docker image
 
-[![Build/Publish Docker Image](https://github.com/husarion/joy2twist/actions/workflows/build-docker-image.yaml/badge.svg)](https://github.com/husarion/joy2twist/actions/workflows/build-docker-image.yaml)
+[![Build/Publish Docker Image](https://github.com/husarion/joy2twist/actions/workflows/ros-docker-image.yaml/badge.svg)](https://github.com/husarion/joy2twist/actions/workflows/ros-docker-image.yaml)
 
 | ROS2 distro |   Supported architectures    |
 | :---------: | :--------------------------: |
-| `galactic`  | `linux/amd64`, `linux/arm64` |
+|  `iron`     | `linux/amd64`, `linux/arm64` |
 |  `humble`   | `linux/amd64`, `linux/arm64` |
 
 Available on [Docker Hub](https://hub.docker.com/r/husarion/joy2twist/tags)

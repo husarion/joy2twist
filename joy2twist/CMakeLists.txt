@@ -26,6 +26,7 @@ add_executable(
   joy2twist
   src/main.cpp
   src/joy2twist_node.cpp
+  src/joy_input.cpp
 )
 
 ament_target_dependencies(joy2twist

@@ -16,16 +16,19 @@
       reset_srv: hardware/e_stop_reset
       trigger_srv: hardware/e_stop_trigger
 
-    # This button mapping should be adjusted to the specific controller
-    # The following map is suited for Logitech F710
-    button_index_map:
+    # This button mapping should be common across all XInput controllers.
+    # Input declaration consists of:
+    # - optional negation '!',
+    # - input type: 'A' for an axis or 'B' for a button,
+    # - axis/button number.
+    input_index_map:
       axis:
-        angular_z: 2 # Right joystick
-        linear_x: 1 # Left joystick
-        linear_y: 0 # Left joystick
-      dead_man_switch: 4 # LB
-      fast_mode: 7 # RT
-      slow_mode: 5 # RB
-      e_stop_reset: 1 # A
-      e_stop_trigger: 2 # B
-      enable_e_stop_reset: 6 # LT
+        angular_z: 'A3' # Right joystick
+        linear_x: 'A1' # Left joystick
+        linear_y: 'A0' # Left joystick
+      dead_man_switch: 'B4' # LB
+      fast_mode: '!A5' # RT
+      slow_mode: 'B5' # RB
+      e_stop_reset: 'B0' # A
+      e_stop_trigger: 'B1' # B
+      enable_e_stop_reset: '!A2' # LT
