@@ -13,8 +13,14 @@ Joy2TwistNode::Joy2TwistNode() : Node("joy2twist_node")
 
   joy_sub_ = create_subscription<MsgJoy>(
     "joy", rclcpp::SensorDataQoS(), std::bind(&Joy2TwistNode::joy_cb, this, _1));
-  twist_pub_ = create_publisher<MsgTwist>(
-    "cmd_vel", rclcpp::QoS(rclcpp::KeepLast(1)).durability_volatile().reliable());
+
+  if (cmd_vel_stamped_) {
+    twist_stamped_pub_ = create_publisher<MsgTwistStamped>(
+      "cmd_vel", rclcpp::QoS(rclcpp::KeepLast(1)).durability_volatile().reliable());
+  } else {
+    twist_pub_ = create_publisher<MsgTwist>(
+      "cmd_vel", rclcpp::QoS(rclcpp::KeepLast(1)).durability_volatile().reliable());
+  }
 
   if (e_stop_present_) {
     e_stop_sub_ = this->create_subscription<MsgBool>(
@@ -29,6 +35,8 @@ Joy2TwistNode::Joy2TwistNode() : Node("joy2twist_node")
 
 void Joy2TwistNode::declare_parameters()
 {
+  this->declare_parameter<bool>("cmd_vel_stamped", false);
+
   this->declare_parameter<float>("linear_velocity_factor.fast", 1.0);
   this->declare_parameter<float>("linear_velocity_factor.regular", 0.5);
   this->declare_parameter<float>("linear_velocity_factor.slow", 0.2);
@@ -54,6 +62,8 @@ void Joy2TwistNode::declare_parameters()
 
 void Joy2TwistNode::load_parameters()
 {
+  this->get_parameter<bool>("cmd_vel_stamped", cmd_vel_stamped_);
+
   this->get_parameter<float>("linear_velocity_factor.fast", linear_velocity_factors_[kFast]);
   this->get_parameter<float>("linear_velocity_factor.regular", linear_velocity_factors_[kRegular]);
   this->get_parameter<float>("linear_velocity_factor.slow", linear_velocity_factors_[kSlow]);
@@ -145,10 +155,10 @@ void Joy2TwistNode::joy_cb(const MsgJoy::SharedPtr joy_msg)
   if (get_joy_input_as_btn(joy_msg, input_index_.dead_man_switch)) {
     driving_mode_ = true;
     convert_joy_to_twist(joy_msg, twist_msg);
-    twist_pub_->publish(twist_msg);
+    publish_twist(twist_msg);
   } else if (driving_mode_) {
     driving_mode_ = false;
-    twist_pub_->publish(twist_msg);
+    publish_twist(twist_msg);
   }
 }
 
@@ -178,6 +188,18 @@ std::pair<float, float> Joy2TwistNode::determine_velocity_factor(const MsgJoy::S
     angular_velocity_factor = angular_velocity_factors_.at(kFast);
   }
   return std::make_pair(linear_velocity_factor, angular_velocity_factor);
+}
+
+void Joy2TwistNode::publish_twist(const MsgTwist & twist_msg)
+{
+  if (cmd_vel_stamped_) {
+    MsgTwistStamped twist_stamped_msg;
+    twist_stamped_msg.header.stamp = this->get_clock()->now();
+    twist_stamped_msg.twist = twist_msg;
+    twist_stamped_pub_->publish(twist_stamped_msg);
+  } else {
+    twist_pub_->publish(twist_msg);
+  }
 }
 
 void Joy2TwistNode::call_trigger_service(const rclcpp::Client<SrvTrigger>::SharedPtr & client) const
