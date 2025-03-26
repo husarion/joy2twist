@@ -238,7 +238,7 @@ void Joy2TwistNode::handle_e_stop(const std::shared_ptr<MsgJoy> joy_msg)
   if (get_joy_input_as_btn(joy_msg, input_index_.e_stop_trigger)) {
     if (!e_stop_state_) {
       // Stop the robot before trying to call the e-stop trigger service
-      twist_pub_->publish(MsgTwist());
+      publish_twist(MsgTwist());
       call_trigger_service(e_stop_trigger_client_);
     }
     return;
