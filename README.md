@@ -1,6 +1,6 @@
 # Joy2Twist
 
-Dockerized ROS node allowing control of ROS-powered mobile robots with Logitech F710 gamepad. Joy2Twist node is converting `sensor_msgs/Joy` message to `geometry_msgs/Twist` in order to provide velocity commands for the mobile robot. Therefore this package is compliant (but not supported by Husarion) with any other gamepad controller which is able to publish the `sensor_msgs/Joy` message.
+Dockerized ROS node allowing control of ROS-powered mobile robots with Logitech F710 gamepad. Joy2Twist node is converting `sensor_msgs/Joy` message to `geometry_msgs/Twist` or `geometry_msgs/TwistStamped` in order to provide velocity commands for the mobile robot. Therefore this package is compliant (but not supported by Husarion) with any other gamepad controller which is able to publish the `sensor_msgs/Joy` message.
 
 ## Setup joy
 
@@ -55,13 +55,17 @@ ROS node is translating `joy` topic to `cmd_vel` topic.
 
 ### Publish
 
-- `cmd_vel` *(geometry_msgs/Twist)*
+- `cmd_vel` *(geometry_msgs/Twist or geometry_msgs/TwistStamped)*
 
 ### Subscribe
 
 - `joy` *(sensor_msgs/Joy)*
 
 ### Parameters
+
+Enable or disable publishing `cmd_vel` topic as *geometry_msgs/TwistStamped*.
+
+- `~cmd_vel_stamped`    *(bool, default: false)*
 
 Following parameters change joystick axes mapped to given robot axes of freedom.
 
@@ -104,7 +108,6 @@ Mapping an axis as a button will result in the axis being treated as a binary bu
 Usage of triggers as buttons may require inverting the axis with a negation sign `!` to activate function after pressing the trigger as their values decrease from 1 to -1 during actuation.
 
 For reference, see the [default DirectInput config file](./joy2twist/config/joy2twist.yaml) and the [Husarion UGV (XInput) config file](./joy2twist/config/joy2twist_ugv.yaml).
-
 
 ## Docker image
 
