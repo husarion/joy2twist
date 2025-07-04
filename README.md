@@ -4,7 +4,7 @@ Dockerized ROS node allowing control of ROS-powered mobile robots with Logitech 
 
 ## Setup joy
 
-Connect joy via nano USB receiver and make sure it is in **DirectInput Mode** (switch in front of the pad with letters **D** and **X**, select **D**).
+Connect joy via nano USB receiver and make sure it is in **XInput Mode** (switch in front of the pad with letters **D** and **X**, select **X**).
 
 To test if joy works, use `jstest /dev/input/js0`.
 If the output is:
