@@ -30,6 +30,20 @@ Joy2TwistNode::Joy2TwistNode() : Node("joy2twist_node")
     e_stop_trigger_client_ = this->create_client<SrvTrigger>(e_stop_trigger_srv_);
   }
 
+  diagnostic_updater_ = std::make_shared<diagnostic_updater::Updater>(this);
+  diagnostic_updater_->setHardwareID("none");
+  diagnostic_updater_->add(
+    "Joy2Twist Diagnostics", [this](diagnostic_updater::DiagnosticStatusWrapper & stat) {
+      if (diagnostic_status_ == diagnostic_msgs::msg::DiagnosticStatus::OK) {
+        stat.summary(diagnostic_msgs::msg::DiagnosticStatus::OK, "Joy2Twist is running");
+      } else {
+        stat.summary(
+          diagnostic_msgs::msg::DiagnosticStatus::WARN,
+          "Unexpected number of buttons or axes in joy message, you might not be using a X-Input "
+          "compatible gamepad.");
+      }
+    });
+
   RCLCPP_INFO(get_logger(), "Initialized node!");
 }
 
@@ -150,6 +164,7 @@ void Joy2TwistNode::joy_cb(const MsgJoy::SharedPtr joy_msg)
 {
   MsgTwist twist_msg;
 
+  handle_x_input_check(joy_msg);
   handle_e_stop(joy_msg);
 
   if (get_joy_input_as_btn(joy_msg, input_index_.dead_man_switch)) {
@@ -248,6 +263,19 @@ void Joy2TwistNode::handle_e_stop(const std::shared_ptr<MsgJoy> joy_msg)
     get_joy_input_as_btn(joy_msg, input_index_.enable_e_stop_reset) &&
     get_joy_input_as_btn(joy_msg, input_index_.e_stop_reset) && e_stop_state_) {
     call_trigger_service(e_stop_reset_client_);
+  }
+}
+
+void Joy2TwistNode::handle_x_input_check(const std::shared_ptr<MsgJoy> joy_msg)
+{
+  if (joy_msg->buttons.size() != 11 || joy_msg->axes.size() != 8) {
+    RCLCPP_WARN_THROTTLE(
+      this->get_logger(), *this->get_clock(), 1000,
+      "Unexpected number of buttons or axes in joy message, you might not be using a X-Input "
+      "compatible gamepad.");
+    diagnostic_status_ = diagnostic_msgs::msg::DiagnosticStatus::WARN;
+  } else {
+    diagnostic_status_ = diagnostic_msgs::msg::DiagnosticStatus::OK;
   }
 }
 
