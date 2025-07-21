@@ -7,13 +7,13 @@
 #include <utility>
 
 #include <rclcpp/rclcpp.hpp>
+#include <diagnostic_updater/diagnostic_updater.hpp>
 
 #include <geometry_msgs/msg/twist.hpp>
 #include <geometry_msgs/msg/twist_stamped.hpp>
 #include <sensor_msgs/msg/joy.hpp>
 #include <std_msgs/msg/bool.hpp>
 #include <std_srvs/srv/trigger.hpp>
-#include "diagnostic_updater/diagnostic_updater.hpp"
 
 #include "joy2twist/joy_input.hpp"
 

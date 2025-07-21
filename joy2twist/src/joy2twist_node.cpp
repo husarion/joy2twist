@@ -31,13 +31,13 @@ Joy2TwistNode::Joy2TwistNode() : Node("joy2twist_node")
   }
 
   diagnostic_updater_ = std::make_shared<diagnostic_updater::Updater>(this);
-  diagnostic_updater_->setHardwareID("none");
+  diagnostic_updater_->setHardwareID("Joy2Twist");
   diagnostic_updater_->add(
-    "Joy2Twist Diagnostics", [this](diagnostic_updater::DiagnosticStatusWrapper & stat) {
+    "Joy2Twist Diagnostics", [this](diagnostic_updater::DiagnosticStatusWrapper & status) {
       if (diagnostic_status_ == diagnostic_msgs::msg::DiagnosticStatus::OK) {
-        stat.summary(diagnostic_msgs::msg::DiagnosticStatus::OK, "Joy2Twist is running");
+        status.summary(diagnostic_msgs::msg::DiagnosticStatus::OK, "Joy2Twist is running");
       } else {
-        stat.summary(
+        status.summary(
           diagnostic_msgs::msg::DiagnosticStatus::WARN,
           "Unexpected number of buttons or axes in joy message, you might not be using a X-Input "
           "compatible gamepad.");
