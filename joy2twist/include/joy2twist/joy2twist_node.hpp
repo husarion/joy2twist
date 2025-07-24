@@ -7,6 +7,7 @@
 #include <utility>
 
 #include <rclcpp/rclcpp.hpp>
+#include <diagnostic_updater/diagnostic_updater.hpp>
 
 #include <geometry_msgs/msg/twist.hpp>
 #include <geometry_msgs/msg/twist_stamped.hpp>
@@ -80,6 +81,7 @@ private:
     const rclcpp::Client<SrvTrigger>::SharedFuture & future,
     const std::string & service_name) const;
   void handle_e_stop(const std::shared_ptr<MsgJoy> joy_msg);
+  void handle_x_input_check(const std::shared_ptr<MsgJoy> joy_msg);
 
   std::map<std::string, float> linear_velocity_factors_;
   std::map<std::string, float> angular_velocity_factors_;
@@ -93,12 +95,16 @@ private:
   std::string e_stop_reset_srv_;
   std::string e_stop_trigger_srv_;
 
+  int diagnostic_status_ = diagnostic_msgs::msg::DiagnosticStatus::OK;
+
   rclcpp::Subscription<MsgBool>::SharedPtr e_stop_sub_;
   rclcpp::Subscription<MsgJoy>::SharedPtr joy_sub_;
   rclcpp::Publisher<MsgTwist>::SharedPtr twist_pub_;
   rclcpp::Publisher<MsgTwistStamped>::SharedPtr twist_stamped_pub_;
   rclcpp::Client<SrvTrigger>::SharedPtr e_stop_reset_client_;
   rclcpp::Client<SrvTrigger>::SharedPtr e_stop_trigger_client_;
+
+  std::shared_ptr<diagnostic_updater::Updater> diagnostic_updater_;
 };
 
 static constexpr char kFast[]{"fast"};
