@@ -16,10 +16,10 @@ Joy2TwistNode::Joy2TwistNode() : Node("joy2twist_node")
 
   if (cmd_vel_stamped_) {
     twist_stamped_pub_ = create_publisher<MsgTwistStamped>(
-      "cmd_vel", rclcpp::QoS(rclcpp::KeepLast(1)).durability_volatile().reliable());
+      cmd_vel_topic_, rclcpp::QoS(rclcpp::KeepLast(1)).durability_volatile().reliable());
   } else {
     twist_pub_ = create_publisher<MsgTwist>(
-      "cmd_vel", rclcpp::QoS(rclcpp::KeepLast(1)).durability_volatile().reliable());
+      cmd_vel_topic_, rclcpp::QoS(rclcpp::KeepLast(1)).durability_volatile().reliable());
   }
 
   if (e_stop_present_) {
@@ -50,6 +50,7 @@ Joy2TwistNode::Joy2TwistNode() : Node("joy2twist_node")
 void Joy2TwistNode::declare_parameters()
 {
   this->declare_parameter<bool>("cmd_vel_stamped", false);
+  this->declare_parameter<std::string>("cmd_vel_topic", "cmd_vel");
 
   this->declare_parameter<float>("linear_velocity_factor.fast", 1.0);
   this->declare_parameter<float>("linear_velocity_factor.regular", 0.5);
@@ -77,6 +78,7 @@ void Joy2TwistNode::declare_parameters()
 void Joy2TwistNode::load_parameters()
 {
   this->get_parameter<bool>("cmd_vel_stamped", cmd_vel_stamped_);
+  this->get_parameter<std::string>("cmd_vel_topic", cmd_vel_topic_);
 
   this->get_parameter<float>("linear_velocity_factor.fast", linear_velocity_factors_[kFast]);
   this->get_parameter<float>("linear_velocity_factor.regular", linear_velocity_factors_[kRegular]);
