@@ -91,6 +91,7 @@ private:
   bool e_stop_present_;
   bool e_stop_state_;
   bool cmd_vel_stamped_;
+  std::string cmd_vel_topic_;
   std::string e_stop_topic_;
   std::string e_stop_reset_srv_;
   std::string e_stop_trigger_srv_;
