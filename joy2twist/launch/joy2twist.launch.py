@@ -33,6 +33,7 @@ def generate_launch_description():
         parameters=[LaunchConfiguration("joy2twist_params_file")],
         emulate_tty="true",
         namespace=namespace,
+        remappings=[("/diagnostics", "diagnostics")],
     )
 
     actions = [declare_namespace_arg, joy2twist_params_file_argument, joy2twist_node]
