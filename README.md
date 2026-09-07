@@ -13,7 +13,11 @@ If the output is:
 jstest: No such file or directory
 ```
 
-See `ls /dev/input | grep js` and find your joy number. If it differs, apply changes in *compose.yaml* and launch file.
+See `ls /dev/input | grep js` and find your joy number. If it differs, pass it via the `joy_dev` launch argument, e.g.:
+
+```bash
+ros2 launch joy2twist gamepad_controller.launch.py joy_dev:=/dev/input/js1
+```
 
 ## Button mapping
 
