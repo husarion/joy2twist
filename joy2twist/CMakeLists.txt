@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.5)
+cmake_minimum_required(VERSION 3.10)
 project(joy2twist)
 
 if(NOT CMAKE_CXX_STANDARD)
@@ -14,7 +14,6 @@ set(GCC_COVERAGE_COMPILE_FLAGS
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${GCC_COVERAGE_COMPILE_FLAGS}")
 
 find_package(ament_cmake REQUIRED)
-find_package(ament_index_cpp REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(geometry_msgs REQUIRED)
 find_package(sensor_msgs REQUIRED)
@@ -26,17 +25,14 @@ include_directories(include)
 
 add_executable(joy2twist src/main.cpp src/joy2twist_node.cpp src/joy_input.cpp)
 
-ament_target_dependencies(
+target_link_libraries(
   joy2twist
-  ament_cmake
-  ament_index_cpp
-  rclcpp
-  geometry_msgs
-  sensor_msgs
-  std_msgs
-  std_srvs
-  joy_linux
-  diagnostic_updater)
+  diagnostic_updater::diagnostic_updater
+  geometry_msgs::geometry_msgs
+  rclcpp::rclcpp
+  sensor_msgs::sensor_msgs
+  std_msgs::std_msgs
+  std_srvs::std_srvs)
 
 install(TARGETS joy2twist DESTINATION lib/${PROJECT_NAME})
 
