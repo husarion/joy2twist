@@ -53,6 +53,11 @@
 //   on it, then calls rclcpp::shutdown() itself, since the watcher replaces rclcpp's handler.
 // Not changed: get_dev_by_joy_name() still opens every jsN node once at startup when dev_name is
 // set, so the module request above can still happen once there.
+//
+// The first two changes are proposed upstream in
+// https://github.com/ros-drivers/joystick_drivers/pull/317 (the log levels are not). Once it is
+// released for every distro this repo builds, check whether the stock joy_linux_node is enough,
+// i.e. whether the INFO/WARN levels are still wanted, and drop this copy if it is.
 
 #include <dirent.h>
 #include <fcntl.h>
