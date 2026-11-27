@@ -19,6 +19,14 @@ See `ls /dev/input | grep js` and find your joy number. If it differs, pass it v
 ros2 launch joy2twist gamepad_controller.launch.py joy_dev:=/dev/input/js1
 ```
 
+## Joy node
+
+`gamepad_controller.launch.py` reads the gamepad with `resilient_joy_linux_node` (node name `joy_node`) instead of the stock `joy_linux_node`. It is [`joy_linux_node.cpp`](https://github.com/ros-drivers/joystick_drivers/blob/3.3.0/joy_linux/src/joy_linux_node.cpp) from joystick_drivers 3.3.0 with the same topics and parameters; the header of [`resilient_joy_linux.cpp`](./joy2twist/src/resilient_joy_linux.cpp) lists the changes. In short:
+
+- it exits cleanly on SIGINT and SIGTERM, within a second, where the stock node can end in `std::terminate`;
+- while no gamepad is connected it checks `/sys/dev/char` before opening `joy_dev`, so a device node with no gamepad behind it (for example one bound into a container) does not make the kernel run `modprobe` every second;
+- a gamepad is optional: with none ever connected the `joy_node: Joystick Driver Status` diagnostic is OK and the retry is logged at INFO; a lost gamepad is WARN. The stock node reports ERROR in both cases.
+
 ## Button mapping
 
 ![Gamepad legend](.docs/gamepad-legend-panther.png)
