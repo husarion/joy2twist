@@ -31,7 +31,7 @@ def generate_launch_description():
     joy_dev_argument = DeclareLaunchArgument(
         "joy_dev",
         default_value="/dev/input/js0",
-        description="Path to the joystick device file used by the joy_linux node",
+        description="Path to the joystick device file used by the joy node",
     )
 
     joy2twist_launch = IncludeLaunchDescription(
@@ -48,9 +48,10 @@ def generate_launch_description():
         }.items(),
     )
 
-    joy_linux_node = Node(
-        package="joy_linux",
-        executable="joy_linux_node",
+    joy_node = Node(
+        package="joy2twist",
+        executable="resilient_joy_linux_node",
+        name="joy_node",
         parameters=[{"dev": LaunchConfiguration("joy_dev")}],
         emulate_tty="true",
         namespace=namespace,
@@ -62,7 +63,7 @@ def generate_launch_description():
         joy2twist_params_file_argument,
         joy_dev_argument,
         joy2twist_launch,
-        joy_linux_node,
+        joy_node,
     ]
 
     return LaunchDescription(actions)

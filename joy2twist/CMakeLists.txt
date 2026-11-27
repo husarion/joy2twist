@@ -22,6 +22,7 @@ find_package(std_msgs REQUIRED)
 find_package(std_srvs REQUIRED)
 find_package(joy_linux REQUIRED)
 find_package(diagnostic_updater REQUIRED)
+find_package(diagnostic_msgs REQUIRED)
 include_directories(include)
 
 add_executable(joy2twist src/main.cpp src/joy2twist_node.cpp src/joy_input.cpp)
@@ -38,13 +39,30 @@ ament_target_dependencies(
   joy_linux
   diagnostic_updater)
 
-install(TARGETS joy2twist DESTINATION lib/${PROJECT_NAME})
+add_executable(resilient_joy_linux_node src/resilient_joy_linux.cpp)
+ament_target_dependencies(resilient_joy_linux_node rclcpp sensor_msgs
+                          diagnostic_updater diagnostic_msgs)
+
+install(TARGETS joy2twist resilient_joy_linux_node
+        DESTINATION lib/${PROJECT_NAME})
 
 install(DIRECTORY launch config DESTINATION share/${PROJECT_NAME}/)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   ament_lint_auto_find_test_dependencies()
+
+  find_package(ament_cmake_gtest REQUIRED)
+  find_package(ros_testing REQUIRED)
+
+  ament_add_gtest(${PROJECT_NAME}_test_gamepad_utils test/test_gamepad_utils.cpp)
+  ament_target_dependencies(${PROJECT_NAME}_test_gamepad_utils diagnostic_msgs)
+
+  ament_add_gtest(${PROJECT_NAME}_test_shutdown_signal_watcher
+                  test/test_shutdown_signal_watcher.cpp)
+
+  add_ros_test(test/resilient_joy_linux_shutdown.test.py TIMEOUT 60)
+  add_ros_test(test/resilient_joy_linux_reconnect_shutdown.test.py TIMEOUT 60)
 endif()
 
 ament_export_include_directories(include)
